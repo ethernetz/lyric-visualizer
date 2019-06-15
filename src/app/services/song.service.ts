@@ -1,21 +1,27 @@
 import { Subject } from 'rxjs';
-import { HttpClient } from 'selenium-webdriver/http';
+import { HttpClient } from '@angular/common/http';
+import { Song } from '../models/song.model';
+import { bindNodeCallback } from 'rxjs/Observable/bindNodeCallback';
+import { switchMap } from 'rxjs/operators';
+import { parseString } from 'xml2js';
+
 
 
 export class SongService{
 
-    private song; //Add interface 
-    private songUpdated = new Subject<String>(); //Add correct interface
+    private song: Song; //Add interface 
+    private songUpdated = new Subject<Song>(); //Add correct interface
 
     constructor(private http: HttpClient) {}
     
-    getSong(artist: String, track: String){
-        this.http.get<>('http://localhost3000/artist?track')
-        .subscribe((songAsXml) => {
-            songAsXml.convertToJSon()
-            this.song = songAsJsonNow; 
-            this.songUpdated.next(this.song);
-        });
+    getSong(artist: String, track: String) {
+        this.http
+        .get('http://api.chartlyrics.com/apiv1.asmx/SearchLyricDirect?artist=michael%20jackson&song=bad')
+        .pipe(switchMap(res => bindNodeCallback(parseString)(res)))
+        .subscribe((songAsJSON) => {
+            console.log(songAsJSON);
+        })
+
     }
 
 
