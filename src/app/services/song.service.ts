@@ -1,4 +1,5 @@
 import { Subject } from 'rxjs';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Song } from '../models/song.model';
 import { bindNodeCallback } from 'rxjs/Observable/bindNodeCallback';
@@ -7,6 +8,7 @@ import { parseString } from 'xml2js';
 
 
 
+@Injectable({providedIn: 'root'})
 export class SongService{
 
     private song: Song; //Add interface 
@@ -19,11 +21,11 @@ export class SongService{
         .get('http://api.chartlyrics.com/apiv1.asmx/SearchLyricDirect?artist=michael%20jackson&song=bad')
         .pipe(switchMap(res => bindNodeCallback(parseString)(res)))
         .subscribe((songAsJSON) => {
+            console.log('test');
             console.log(songAsJSON);
         })
 
     }
-
 
 
     getSongUpdateListener() {

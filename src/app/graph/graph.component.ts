@@ -12,7 +12,7 @@ import { SongService } from '../services/song.service'
 
 export class GraphComponent{
 
-    private songSub = Subscription;
+    private songSub: Subscription;
     song: Song = null;
 
     constructor(
@@ -21,6 +21,8 @@ export class GraphComponent{
 
 
     ngOnInit(){
+        this.songService.getSong('b;aj', '')
+
         this.songSub = this.songService
         .getSongUpdateListener()
         .subscribe((song: Song) => {
