@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { Song } from '../models/song.model';
-import { SongService } from '../services/song.service'
+import * as d3 from "d3";
+
 
 @Component({
     selector: 'app-graph',
@@ -10,24 +10,12 @@ import { SongService } from '../services/song.service'
     styleUrls: ['./graph.component.scss']
 })
 
-export class GraphComponent{
-
-    private songSub: Subscription;
-    song: Song = null;
+export class GraphComponent {
 
     constructor(
-        public songService: SongService
-    ){}
+    ) { }
 
-
-    ngOnInit(){
-        this.songService.getSong('b;aj', '')
-
-        this.songSub = this.songService
-        .getSongUpdateListener()
-        .subscribe((song: Song) => {
-            this.song = song
-        })
+    ngOnInit() {
     }
 
 }
