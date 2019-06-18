@@ -17,15 +17,14 @@ export class SongService{
     constructor(private http: HttpClient) {}
 
     createHeaders(headers: HttpHeaders) {
-        headers.append('Access-Control-Allow-Origin', '*');
+        headers.append('Accept', 'application/xml');
     }
     
     getSong(artist: String, track: String) {
         let headers = new HttpHeaders();
         this.createHeaders(headers);
         this.http
-        .get('http://api.chartlyrics.com/apiv1.asmx/SearchLyricDirect?artist=michael%20jackson&song=bad', {headers: headers})
-        .pipe(switchMap(res => bindNodeCallback(parseString)(res)))
+        .get('https://api.lyrics.ovh/v1/Michael Jackson/Bad')
         .subscribe((songAsJSON) => {
             console.log('test');
             console.log(songAsJSON);
