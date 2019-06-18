@@ -29,14 +29,14 @@ export class SearchComponent implements OnInit{
     }
 
     search($keypress) {
-        if ($keypress.timeStamp - this.timeSinceLastKeypress > 0) {
+        if ($keypress.timeStamp - this.timeSinceLastKeypress >= 0 ) {
             this.songService.getAutocomplete($keypress.target.value);
         }
         this.timeSinceLastKeypress = $keypress.timeStamp;
     }
 
     fetchSong($event, song) {
-        this.songService.getSong(song.artist.name, song.title);
+        this.songService.getSong(song);
         console.log(song);
     }
     

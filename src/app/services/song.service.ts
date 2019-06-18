@@ -9,6 +9,7 @@ import { SongOption } from '../models/song-option.model'
 @Injectable({providedIn: 'root'})
 export class SongService{
 
+    private song: Song;
     private songUpdated = new Subject<Song>();
 
     private songOptions: SongOption[];
@@ -17,34 +18,44 @@ export class SongService{
     constructor(private http: HttpClient) {
     }
     
-    getSong(artist: String, track: String) {
+    getSong(selectedSong: SongOption) {
         this.http
-        .get('https://api.lyrics.ovh/v1/' + artist + '/' + track)
-        .subscribe((songAsJSON) => {
-            console.log(songAsJSON);
-            // this.songUpdated.next(songAsJSON);
+        .get('https://api.lyrics.ovh/v1/' + selectedSong.artist + '/' + selectedSong.title)
+        .subscribe((lyricsAsJSON) => {
+            this.song = this.toSong(selectedSong, lyricsAsJSON);
+            this.songUpdated.next(this.song);
+            console.log(this.song);
         });
+    }
+
+    toSong(selectedSong: SongOption, lyricsAsJSON): Song {
+        let song: Song = {
+            title: selectedSong.title,
+            artist: selectedSong.artist,
+            album_title: selectedSong.album_title,
+            album_art: selectedSong.album_art,
+            lyrics: lyricsAsJSON.lyrics
+        }
+        return song;
     }
 
     getAutocomplete(terms: String) {
         this.http.jsonp('https://api.deezer.com/search?output=jsonp&callback=JSONP_CALLBACK&limit=5&q=' + terms, 'JSONP_CALLBACK')
-        .subscribe((songOptionsData) => {
-            this.songOptions = this.toSongOptions(songOptionsData);
+        .subscribe((songOptionsAsJSON) => {
+            this.songOptions = this.toSongOptions(songOptionsAsJSON);
             this.songOptionsUpdated.next(this.songOptions);
         });
     }
 
-    toSongOptions(songOptionsData){
+    toSongOptions(songOptionsAsJSON): SongOption[]{
         let songOptions: SongOption[] = [];
-        songOptionsData.data.forEach(songOptionData => {
-            console.log(songOptionData)
+        songOptionsAsJSON.data.forEach(songOptionData => {
            let songOption: SongOption = {
                 title: songOptionData.title,
                 artist: songOptionData.artist.name,
                 album_title: songOptionData.album.title,
                 album_art: songOptionData.album.cover_small,
            };
-           console.log(songOption);           
            songOptions.push(songOption);
         });
         return songOptions;
