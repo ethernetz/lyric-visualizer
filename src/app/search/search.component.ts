@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { SongService } from '../services/song.service';
 import { Subject } from 'rxjs/Subject'; 
 import { Subscription } from 'rxjs';
-
+import { Song } from '../models/song.model'
+import { SongOption } from '../models/song-option.model'
 
 @Component({
     selector: 'app-search',
@@ -10,33 +11,32 @@ import { Subscription } from 'rxjs';
     styleUrls: ['./search.component.scss']
 })
 
-export class SearchComponent implements OnInit {
+export class SearchComponent implements OnInit{
 
-    songs;
+    private songOptions: SongOption[] = [];
+    private songOptionsSub: Subscription;
 
-    lastKeypress: number = 0;
+    private timeSinceLastKeypress: number = 0;
 
-    private autoCompleteSub: Subscription;
+    constructor(private songService: SongService) {}
 
-    constructor(private songSearchService: SongService) {}
-
-
-    ngOnInit(): void {
-        this.songSearchService
-            .getAutocomplete("Bad");
-        this.autoCompleteSub = this.songSearchService.getAutocompleteListener().subscribe((data) => this.songs = data);
-        
+    ngOnInit(){
+        this.songOptionsSub = this.songService
+        .getAutocompleteListener()
+        .subscribe((songOptions: SongOption[]) => {
+            this.songOptions = songOptions;
+        })
     }
 
-    search($event) {
-        if ($event.timeStamp - this.lastKeypress > 500) {
-            this.songSearchService.getAutocomplete($event.target.value);
+    search($keypress) {
+        if ($keypress.timeStamp - this.timeSinceLastKeypress > 0) {
+            this.songService.getAutocomplete($keypress.target.value);
         }
-        this.lastKeypress = $event.timeStamp;
+        this.timeSinceLastKeypress = $keypress.timeStamp;
     }
 
     fetchSong($event, song) {
-        this.songSearchService.getSong(song.artist.name, song.title);
+        this.songService.getSong(song.artist.name, song.title);
         console.log(song);
     }
     
