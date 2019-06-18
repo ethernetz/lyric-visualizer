@@ -13,9 +13,13 @@ import * as d3 from "d3";
 export class GraphComponent {
 
     constructor(
-    ) { }
+  
+        public songService: SongService
+    ){}
 
-    ngOnInit() {
+
+    ngOnInit(){
+        this.songService.getSong('Michael Jackson', 'Bad')
     }
 
 }

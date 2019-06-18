@@ -1,35 +1,42 @@
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators/map'
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Song } from '../models/song.model';
-import { bindNodeCallback } from 'rxjs/Observable/bindNodeCallback';
-import { switchMap } from 'rxjs/operators';
-import { parseString } from 'xml2js';
 
 
 
 @Injectable({providedIn: 'root'})
 export class SongService{
 
-    private song: Song; //Add interface 
-    private songUpdated = new Subject<Song>(); //Add correct interface
+    private songUpdated = new Subject(); //Add correct interface
 
-    constructor(private http: HttpClient) {}
+    private songOptionsUpdated = new Subject();
 
-    createHeaders(headers: HttpHeaders) {
-        headers.append('Accept', 'application/xml');
+    constructor(private http: HttpClient) {
     }
     
     getSong(artist: String, track: String) {
-        let headers = new HttpHeaders();
-        this.createHeaders(headers);
         this.http
-        .get('https://api.lyrics.ovh/v1/Michael Jackson/Bad')
+        .get('https://api.lyrics.ovh/v1/' + artist + '/' + track)
         .subscribe((songAsJSON) => {
-            console.log('test');
             console.log(songAsJSON);
-        })
+            this.songUpdated.next(songAsJSON);
+        });
+    }
 
+    getAutocomplete(terms: String) {
+        this.http.jsonp('https://api.deezer.com/search?output=jsonp&callback=JSONP_CALLBACK&limit=5&q=' + terms, 'JSONP_CALLBACK')
+        .subscribe((data) => {
+            this.songOptionsUpdated.next(data);
+            console.log(data);
+            //new songoptions: songOptionType (from the model)  = name: data[0].name,
+            //songOptionsUpdated.next(songOptions)
+        });
+    }
+
+    getAutocompleteListener() {
+        return this.songOptionsUpdated.asObservable();
     }
 
 

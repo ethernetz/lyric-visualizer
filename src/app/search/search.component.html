@@ -1,1 +1,6 @@
-<p>Yo!</p>
+<input id="song-search" type="text" /><!--(keydown)="search($event)"/>-->
+<ng-container *ngIf="songs !== undefined">
+<div *ngFor="let song of songs.data" (click)="fetchSong($event, song)">
+    <h4>{{ song?.title }} - by {{ song?.artist.name }}</h4>
+</div>
+</ng-container>
