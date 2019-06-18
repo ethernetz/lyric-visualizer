@@ -1,9 +1,7 @@
 export interface Song {
-    trackId: number,
-    lyricId: number,
-    song: string,
+    title: string,
     artist: string,
-    url: string,
-    coverArtURL: string, 
-    lyrics: string
+    album_title: string,
+    album_art: string,
+    lyrics: string 
 }
