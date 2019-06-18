@@ -1,1 +1,8 @@
-<p>Yo!</p>
+<input id="song-search" type="text" (keydown)="search($event)"/>
+<div *ngFor="let song of songs.data">
+    <h4>{{ song?.title }} - by {{ song?.artist.name }}</h4>
+</div>
+
+<div *ngIf="songs?.length < 1">
+    <h2>No songs found :(</h2>
+</div>

@@ -1,17 +1,15 @@
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators/map'
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Song } from '../models/song.model';
-import { bindNodeCallback } from 'rxjs/Observable/bindNodeCallback';
-import { switchMap } from 'rxjs/operators';
-import { parseString } from 'xml2js';
+import { Song } from '../models/song.model'
 
 
 
 @Injectable({providedIn: 'root'})
 export class SongService{
 
-    private song: Song; //Add interface 
+    private song: Array<Song>; //Add interface 
     private songUpdated = new Subject<Song>(); //Add correct interface
 
     constructor(private http: HttpClient) {}
@@ -24,12 +22,16 @@ export class SongService{
         let headers = new HttpHeaders();
         this.createHeaders(headers);
         this.http
-        .get('https://api.lyrics.ovh/v1/Michael Jackson/Bad')
+        .get('https://api.lyrics.ovh/v1/' + artist + '/' + track)
         .subscribe((songAsJSON) => {
             console.log('test');
             console.log(songAsJSON);
         })
 
+    }
+
+    getAutocomplete(terms: String) {
+        return this.http.get('http://api.deezer.com/search?limit=5&q=' + terms).pipe(map((res: Response) => res.json()));
     }
 
 

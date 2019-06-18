@@ -21,7 +21,7 @@ export class GraphComponent{
 
 
     ngOnInit(){
-        this.songService.getSong('b;aj', '')
+        this.songService.getSong('Michael Jackson', 'Bad')
 
         this.songSub = this.songService
         .getSongUpdateListener()
