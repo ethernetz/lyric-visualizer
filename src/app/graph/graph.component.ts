@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { Song } from '../models/song.model';
-import { SongService } from '../services/song.service'
+import { SongOption } from '../models/song-option.model';
+import { SongService } from '../services/song.service';
 
 @Component({
     selector: 'app-graph',
@@ -21,7 +22,13 @@ export class GraphComponent{
 
 
     ngOnInit(){
-        this.songService.getSong('Michael Jackson', 'Bad')
+        let starterSong: SongOption = {
+            title: "Hymn for the Weekend",
+            artist: "Coldplay",
+            album_title: "A Head Full of Dreams",
+            album_art: "https://e-cdns-images.dzcdn.net/images/cover/5df065fdcbaffd0f83d09789bad9d2db/250x250-000000-80-0-0.jpg"
+        }
+        this.songService.getSong(starterSong);
 
         this.songSub = this.songService
         .getSongUpdateListener()
