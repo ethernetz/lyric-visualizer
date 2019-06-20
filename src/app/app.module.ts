@@ -11,12 +11,14 @@ import { AppComponent } from './app.component';
 import { SearchComponent } from './search/search.component'
 import { GraphComponent } from './graph/graph.component'
 import { InfoComponent } from './info/info.component'
+import { SidebarComponent } from './sidebar/sidebar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    SearchComponent,
     GraphComponent,
+    SidebarComponent,
+    SearchComponent,
     InfoComponent
   ],
   imports: [
