@@ -1,4 +1,4 @@
-<input id="song-search" type="text" (keydown)="search($event)" />
+<input #searchbox id="song-search" type="text"  (change)=search()/>
 
 <ng-container *ngIf="songOptions.length > 0">
     <div *ngFor="let song of songOptions" (click)="fetchSong($event, song)">

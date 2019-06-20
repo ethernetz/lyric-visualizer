@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SongService } from '../services/song.service';
 import { Subject } from 'rxjs/Subject'; 
 import { Subscription } from 'rxjs';
@@ -13,6 +13,11 @@ import { SongOption } from '../models/song-option.model'
 
 export class SearchComponent implements OnInit{
 
+    @ViewChild('searchbox', {static: false}) searchbox; 
+    
+    
+
+    private searchTerm = "";
     private songOptions: SongOption[] = [];
     private songOptionsSub: Subscription;
 
@@ -28,11 +33,18 @@ export class SearchComponent implements OnInit{
         })
     }
 
-    search($keypress) {
-        if ($keypress.timeStamp - this.timeSinceLastKeypress >= 0 ) {
-            this.songService.getAutocomplete($keypress.target.value);
-        }
-        this.timeSinceLastKeypress = $keypress.timeStamp;
+    ngAfterViewInit() {
+        this.searchbox.valueChanges.subscribe((searchterm) => {
+            this.search(searchterm);
+        })
+      }
+
+    search(searchterm: string) {
+        // if ($keypress.timeStamp - this.timeSinceLastKeypress >= 0 ) {
+            console.log(searchterm);
+            this.songService.getAutocomplete(searchterm);
+        // }
+        // this.timeSinceLastKeypress = $keypress.timeStamp;
     }
 
     fetchSong($event, song) {

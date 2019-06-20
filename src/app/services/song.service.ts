@@ -40,9 +40,11 @@ export class SongService{
     }
 
     getAutocomplete(terms: String) {
+        console.log(terms);
         this.http.jsonp('https://api.deezer.com/search?output=jsonp&callback=JSONP_CALLBACK&limit=5&q=' + terms, 'JSONP_CALLBACK')
         .subscribe((songOptionsAsJSON) => {
             this.songOptions = this.toSongOptions(songOptionsAsJSON);
+            console.log(this.songOptions);
             this.songOptionsUpdated.next(this.songOptions);
         });
     }
