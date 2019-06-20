@@ -42,7 +42,7 @@ export class GraphComponent {
             })
     }
 
-    buildMatrix(lyrics: string[]): Array<Link> {
+    buildMatrix(lyrics: string[]): any {
         let lyrics_map: Map<string, number> = new Map();
 
         let matrix: Array<Link> = new Array();
@@ -65,36 +65,52 @@ export class GraphComponent {
                 matrix.push(link);
             }
         }
-        return matrix;
+        return {matrix: matrix, map: lyrics_map};
     }
 
     graphViz(lyrics: string) {
 
         let graphStyle = window.getComputedStyle(document.getElementById('graph'))
         var width = parseFloat(graphStyle.width);
-        console.log(width);
         var height = width;
 
         var svg = d3.select("#graph").append("svg").attr("width", width).attr("height", height);
-        svg.append("rect")
-            .attr("class", "background")
-            .attr("width", width)
-            .attr("height", height)
-        svg.append("rect")
-            .attr("class", "background")
-            .attr("width", width)
-            .attr("height", height);
 
-        let lyrics_array: string[] = lyrics.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "").replace(/\s{2,}/g, " ").split(" ");
+        let lyrics_array: string[] = lyrics.split(/\s+/);
 
-        let matrix: Link[] = this.buildMatrix(lyrics_array);
+        var matrix_data = this.buildMatrix(lyrics_array);
+        let matrix: Link[] = matrix_data.matrix;
 
+        let wrapper = svg.append("g");
+
+        //Container for the gradients
+        var defs = wrapper.append("defs");
+
+        //Code taken from http://stackoverflow.com/questions/9630008/how-can-i-create-a-glow-around-a-rectangle-with-svg
+        //Filter for the outside glow
+        var filter = defs.append("filter")
+            .attr("id", "glow")
+            .attr("width", "300%")
+            .attr("height", "300%");
+
+
+        filter.append("feGaussianBlur")
+            .style("fill", "green")
+            .attr("class", "blur")
+            .attr("stdDeviation", "6")
+            .attr("result", "coloredBlur");
+
+        var feMerge = filter.append("feMerge");
+        feMerge.append("feMergeNode")
+            .attr("in", "coloredBlur");
+        feMerge.append("feMergeNode")
+            .attr("in", "SourceGraphic");
 
         const result = matrix.filter((element) => parseInt(element.weight));
 
         let matrixScale = d3.scaleLinear().domain([0, lyrics_array.length]).range([0, width])
 
-        var selection = d3.select("svg")
+        var selection = d3.select("g")
             .append("g")
             .attr("id", "adjacencyG")
             .selectAll("rect")
@@ -108,35 +124,21 @@ export class GraphComponent {
             .attr("x", function (d) { return matrixScale(parseInt(d.x)) })
             .attr("y", function (d) { return matrixScale(parseInt(d.y)) })
             .attr("class", "exampleGlow")
-            .style("fill", "red")
-
-        //Container for the gradients
-        var defs = svg.append("defs");
-
-        //Code taken from http://stackoverflow.com/questions/9630008/how-can-i-create-a-glow-around-a-rectangle-with-svg
-        //Filter for the outside glow
-        var filter = defs.append("filter")
-            .attr("id", "glow")
-            .attr("width", "300%")
-            .attr("height", "300%");
+            .style("fill", (d) => {
+                return this.weightToColor();
+            })
 
 
-        filter.append("feGaussianBlur")
-            .style("fill", "green")
-            .attr("class", "blur")
-            .attr("stdDeviation", "5")
-            .attr("result", "coloredBlur");
-
-        var feMerge = filter.append("feMerge");
-        feMerge.append("feMergeNode")
-            .attr("in", "coloredBlur");
-        feMerge.append("feMergeNode")
-            .attr("in", "SourceGraphic");
 
 
         d3.selectAll(".exampleGlow")
             .style("filter", "url(#glow)")
     }
 
+    weightToColor() : string {
+        let index = Math.floor((Math.random() * 5));
+        let color_array : Array<string> = ["#FAFE09", "#FF00FF", "#01F4FF", "#0CD8AB", "#FF8704"]
+        return color_array[index];
+    }
 
 }
