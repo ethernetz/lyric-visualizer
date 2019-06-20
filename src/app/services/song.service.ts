@@ -24,7 +24,6 @@ export class SongService{
         .subscribe((lyricsAsJSON) => {
             this.song = this.toSong(selectedSong, lyricsAsJSON);
             this.songUpdated.next(this.song);
-            console.log(this.song)
         });
     }
 

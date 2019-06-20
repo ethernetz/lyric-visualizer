@@ -65,7 +65,6 @@ export class GraphComponent {
                 matrix.push(link);
             }
         }
-        console.log(matrix);
         return matrix;
     }
   
@@ -78,7 +77,7 @@ export class GraphComponent {
         },
         width = 900,
         height = 900;
-        var svg = d3.select("body").append("svg").attr("width", width).attr("height", height);
+        var svg = d3.select("#graph").append("svg").attr("width", width).attr("height", height);
         svg.append("rect")
             .attr("class", "background")
             .attr("width", width - margin.right)
@@ -107,11 +106,11 @@ export class GraphComponent {
                 .append("rect")
                 .attr("width", matrixScale(1))
                 .attr("height", matrixScale(1))
+                .attr("class", "test-shadow")
                 selection
                 .attr("x", function (d) {return matrixScale(parseInt(d.x))})
                 .attr("y", function (d) {return matrixScale(parseInt(d.y))})
                 .style("fill", "red")
-                .style("fill-opacity", function (d) {return parseInt(d.weight) * .2})
     }
   
 
