@@ -106,11 +106,11 @@ export class GraphComponent {
                 .append("rect")
                 .attr("width", matrixScale(1))
                 .attr("height", matrixScale(1))
-                .attr("class", "test-shadow")
-                selection
                 .attr("x", function (d) {return matrixScale(parseInt(d.x))})
                 .attr("y", function (d) {return matrixScale(parseInt(d.y))})
                 .style("fill", "red")
+
+                
     }
   
 
