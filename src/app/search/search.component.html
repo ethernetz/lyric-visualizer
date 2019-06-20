@@ -1,4 +1,7 @@
-<input id="song-search" type="text" (keydown)="search($event)" />
+<form [formGroup]="myForm">
+    <input formControlName="searcbox" type="text"/>
+</form>
+
 
 <ng-container *ngIf="songOptions.length > 0">
     <div *ngFor="let song of songOptions" (click)="fetchSong($event, song)">

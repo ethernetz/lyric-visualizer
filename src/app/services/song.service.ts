@@ -24,23 +24,21 @@ export class SongService{
         .subscribe((lyricsAsJSON) => {
             this.song = this.toSong(selectedSong, lyricsAsJSON);
             this.songUpdated.next(this.song);
+            console.log(this.song)
         });
     }
 
     toSong(selectedSong: SongOption, lyricsAsJSON): Song {
         let song: Song = {
-            title: selectedSong.title,
-            artist: selectedSong.artist,
-            album_title: selectedSong.album_title,
-            album_art: selectedSong.album_art,
+            metadata: selectedSong,
             lyrics: lyricsAsJSON.lyrics
         }
         return song;
     }
 
     getAutocomplete(terms: String) {
-        this.http.jsonp('https://api.deezer.com/search?output=jsonp&callback=JSONP_CALLBACK&limit=5&q=' + terms, 'JSONP_CALLBACK')
-        .subscribe((songOptionsAsJSON) => {
+        this.http.get('http://ws.audioscrobbler.com/2.0/?method=track.search&track=' + terms + '&limit=5&api_key=49386e5f87311a82ff3de554345a8053&format=json')
+        .subscribe((songOptionsAsJSON: any) => {
             this.songOptions = this.toSongOptions(songOptionsAsJSON);
             this.songOptionsUpdated.next(this.songOptions);
         });
@@ -48,12 +46,10 @@ export class SongService{
 
     toSongOptions(songOptionsAsJSON): SongOption[]{
         let songOptions: SongOption[] = [];
-        songOptionsAsJSON.data.forEach(songOptionData => {
+        songOptionsAsJSON.results.trackmatches.track.forEach(songOptionData => {
            let songOption: SongOption = {
-                title: songOptionData.title,
-                artist: songOptionData.artist.name,
-                album_title: songOptionData.album.title,
-                album_art: songOptionData.album.cover_small,
+                title: songOptionData.name,
+                artist: songOptionData.artist,
            };
            songOptions.push(songOption);
         });
