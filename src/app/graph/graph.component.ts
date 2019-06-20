@@ -69,20 +69,17 @@ export class GraphComponent {
     }
   
     graphViz(lyrics : string) {
-        var margin = {
-            top: 285,
-            right: 0,
-            bottom: 10,
-            left: 285
-        },
-        width = 900,
-        height = 900;
+
+        let graphStyle = window.getComputedStyle(document.getElementById('graph'),)
+        var width = parseFloat(graphStyle.width);
+        console.log(width);
+        var height = width; 
+
         var svg = d3.select("#graph").append("svg").attr("width", width).attr("height", height);
         svg.append("rect")
             .attr("class", "background")
-            .attr("width", width - margin.right)
-            .attr("height", height - margin.top)
-            .attr("transform", "translate(" + margin.right + "," + margin.top + ")");
+            .attr("width", width)
+            .attr("height", height)
         svg.append("rect")
             .attr("class", "background")
             .attr("width", width)
