@@ -20,7 +20,6 @@ export class InfoComponent implements OnInit{
         this.selectedSongSub = this.songService
         .getSongUpdateListener()
         .subscribe((selectedSong: Song) => {
-            console.log('yo!')
             this.selectedSong = selectedSong;
         })
     }
