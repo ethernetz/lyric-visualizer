@@ -16,7 +16,7 @@ import { ScaleBand } from 'd3';
     styleUrls: ['./graph.component.scss']
 })
 
-export class GraphComponent implements AfterContentInit {
+export class GraphComponent {
 
     private songSub: Subscription;
     song: Song = null;
@@ -29,9 +29,7 @@ export class GraphComponent implements AfterContentInit {
     ngOnInit() {
         let starterSong: SongOption = {
             title: "Hymn for the Weekend",
-            artist: "Coldplay",
-            // album_title: "A Head Full of Dreams",
-            // album_art: "https://e-cdns-images.dzcdn.net/images/cover/5df065fdcbaffd0f83d09789bad9d2db/250x250-000000-80-0-0.jpg"
+            artist: "Coldplay"
         }
         this.songService.getSong(starterSong);
 
@@ -39,6 +37,8 @@ export class GraphComponent implements AfterContentInit {
         .getSongUpdateListener()
         .subscribe((song: Song) => {
             this.song = song
+            d3.select("svg").remove();
+            this.graphViz(this.song.lyrics);
         })
     }
 
@@ -69,15 +69,15 @@ export class GraphComponent implements AfterContentInit {
         return matrix;
     }
   
-    ngAfterContentInit() {
+    graphViz(lyrics : string) {
         var margin = {
             top: 285,
             right: 0,
             bottom: 10,
             left: 285
         },
-        width = window.innerWidth,
-        height = window.innerHeight;
+        width = 900,
+        height = 900;
         var svg = d3.select("body").append("svg").attr("width", width).attr("height", height);
         svg.append("rect")
             .attr("class", "background")
@@ -89,15 +89,14 @@ export class GraphComponent implements AfterContentInit {
             .attr("width", width)
             .attr("height", height);
 
-        d3.json("assets/data.json").then((data : Song) => {
-            let lyrics : string[] = data.lyrics.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"").replace(/\s{2,}/g," ").split(" ");
-            console.log(lyrics.length);
+            let lyrics_array : string[] = lyrics.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"").replace(/\s{2,}/g," ").split(" ");
 
-            let matrix : Link[] = this.buildMatrix(lyrics);
+            let matrix : Link[] = this.buildMatrix(lyrics_array);
             
-            console.log(matrix.length)
+
             const result = matrix.filter((element) => parseInt(element.weight));
-            console.log(result.length)
+
+            let matrixScale = d3.scaleLinear().domain([0, lyrics_array.length]).range([0, width])
 
             var selection = d3.select("svg")
                 .append("g")
@@ -106,14 +105,13 @@ export class GraphComponent implements AfterContentInit {
                 .data(result)
                 .enter()
                 .append("rect")
-                .attr("width", 3)
-                .attr("height", 3);
+                .attr("width", matrixScale(1))
+                .attr("height", matrixScale(1))
                 selection
-                .attr("x", function (d) {return parseInt(d.x) * 3})
-                .attr("y", function (d) {return parseInt(d.y) * 3})
+                .attr("x", function (d) {return matrixScale(parseInt(d.x))})
+                .attr("y", function (d) {return matrixScale(parseInt(d.y))})
                 .style("fill", "red")
                 .style("fill-opacity", function (d) {return parseInt(d.weight) * .2})
-       });
     }
   
 
