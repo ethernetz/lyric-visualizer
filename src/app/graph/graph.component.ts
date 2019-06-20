@@ -85,6 +85,25 @@ export class GraphComponent {
             .attr("width", width)
             .attr("height", height);
 
+        	//Container for the gradients
+	var defs = svg.append("defs");
+
+	//Code taken from http://stackoverflow.com/questions/9630008/how-can-i-create-a-glow-around-a-rectangle-with-svg
+	//Filter for the outside glow
+	var filter = defs.append("filter")
+		.attr("id","glow");
+
+	filter.append("feGaussianBlur")
+		.attr("class", "blur")
+		.attr("stdDeviation","10.5")
+		.attr("result","coloredBlur");
+
+	var feMerge = filter.append("feMerge");
+	feMerge.append("feMergeNode")
+		.attr("in","coloredBlur");
+	feMerge.append("feMergeNode")
+		.attr("in","SourceGraphic"); 
+
             let lyrics_array : string[] = lyrics.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"").replace(/\s{2,}/g," ").split(" ");
 
             let matrix : Link[] = this.buildMatrix(lyrics_array);
@@ -101,13 +120,17 @@ export class GraphComponent {
                 .data(result)
                 .enter()
                 .append("rect")
+                .attr("class", "exampleGlow")
                 .attr("width", matrixScale(1))
                 .attr("height", matrixScale(1))
                 .attr("x", function (d) {return matrixScale(parseInt(d.x))})
                 .attr("y", function (d) {return matrixScale(parseInt(d.y))})
                 .style("fill", "red")
 
-                
+
+
+                d3.selectAll(".exampleGlow")
+		.style("filter","url(#glow)")
     }
   
 

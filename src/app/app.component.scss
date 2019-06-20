@@ -1,0 +1,16 @@
+.main {
+    grid-area: main;
+}
+
+.sidebar {
+    grid-area: right;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-areas:
+      'main main main main main right'
+      'main main main main main right';
+    grid-column-gap: 30px;
+    padding: 10px;
+  }
