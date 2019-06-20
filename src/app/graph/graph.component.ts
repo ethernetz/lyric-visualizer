@@ -25,8 +25,8 @@ export class GraphComponent{
         let starterSong: SongOption = {
             title: "Hymn for the Weekend",
             artist: "Coldplay",
-            album_title: "A Head Full of Dreams",
-            album_art: "https://e-cdns-images.dzcdn.net/images/cover/5df065fdcbaffd0f83d09789bad9d2db/250x250-000000-80-0-0.jpg"
+            // album_title: "A Head Full of Dreams",
+            // album_art: "https://e-cdns-images.dzcdn.net/images/cover/5df065fdcbaffd0f83d09789bad9d2db/250x250-000000-80-0-0.jpg"
         }
         this.songService.getSong(starterSong);
 

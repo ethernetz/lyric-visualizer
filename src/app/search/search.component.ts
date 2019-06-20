@@ -17,6 +17,7 @@ export class SearchComponent implements OnInit{
 
     myForm: FormGroup;
     
+    
     private songOptions: SongOption[] = [];
     private songOptionsSub: Subscription;
 
@@ -40,6 +41,7 @@ export class SearchComponent implements OnInit{
         ).subscribe(searchterm => {
             if(this.searcbox.status == 'VALID'){
                 this.search(searchterm);
+                console.log('here for some reason')
             } else {
                 this.clearSearchResults()
             }
@@ -52,6 +54,7 @@ export class SearchComponent implements OnInit{
 
     search(searchterm: string) {
         this.songService.getAutocomplete(searchterm);
+        console.log('now im here');
     }
 
     clearSearchResults() {
@@ -60,7 +63,6 @@ export class SearchComponent implements OnInit{
 
     fetchSong($event, song) {
         this.songService.getSong(song);
-        console.log(song);
     }
     
 }   
