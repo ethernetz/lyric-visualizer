@@ -4,6 +4,8 @@ import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs';
 import { Song } from '../models/song.model'
 import { SongOption } from '../models/song-option.model'
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { debounce, debounceTime } from 'rxjs/operators';
 
 @Component({
     selector: 'app-search',
@@ -13,17 +15,14 @@ import { SongOption } from '../models/song-option.model'
 
 export class SearchComponent implements OnInit{
 
-    @ViewChild('searchbox', {static: false}) searchbox; 
+    myForm: FormGroup;
     
-    
-
-    private searchTerm = "";
     private songOptions: SongOption[] = [];
     private songOptionsSub: Subscription;
 
     private timeSinceLastKeypress: number = 0;
 
-    constructor(private songService: SongService) {}
+    constructor(private fb: FormBuilder, private songService: SongService) {}
 
     ngOnInit(){
         this.songOptionsSub = this.songService
@@ -31,20 +30,32 @@ export class SearchComponent implements OnInit{
         .subscribe((songOptions: SongOption[]) => {
             this.songOptions = songOptions;
         })
+
+        this.myForm = this.fb.group({
+            searcbox: ['', [Validators.required, Validators.min(1)]]
+        });
+
+        this.searcbox.valueChanges.pipe(
+            debounceTime(300),
+        ).subscribe(searchterm => {
+            if(this.searcbox.status == 'VALID'){
+                this.search(searchterm);
+            } else {
+                this.clearSearchResults()
+            }
+        })
     }
 
-    ngAfterViewInit() {
-        this.searchbox.valueChanges.subscribe((searchterm) => {
-            this.search(searchterm);
-        })
-      }
+    get searcbox() {
+        return this.myForm.get('searcbox');
+       } 
 
     search(searchterm: string) {
-        // if ($keypress.timeStamp - this.timeSinceLastKeypress >= 0 ) {
-            console.log(searchterm);
-            this.songService.getAutocomplete(searchterm);
-        // }
-        // this.timeSinceLastKeypress = $keypress.timeStamp;
+        this.songService.getAutocomplete(searchterm);
+    }
+
+    clearSearchResults() {
+        this.songOptions = [];
     }
 
     fetchSong($event, song) {

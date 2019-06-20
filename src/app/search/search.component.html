@@ -1,4 +1,7 @@
-<input #searchbox id="song-search" type="text"  (change)=search()/>
+<form [formGroup]="myForm">
+    <input formControlName="searcbox" type="text"  (change)=search()/>
+</form>
+
 
 <ng-container *ngIf="songOptions.length > 0">
     <div *ngFor="let song of songOptions" (click)="fetchSong($event, song)">
