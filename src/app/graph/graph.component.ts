@@ -76,12 +76,12 @@ export class GraphComponent {
             .attr("x", "-450%")
             .attr("y", "-450%");
 
-        for (var i = 0; i < 5; i++) {
-            filter.append("feGaussianBlur")
-                .attr("class", "blur")
-                .attr("stdDeviation", 1)
-                // .attr("result", "coloredBlur");
-        }
+        // for (var i = 0; i < 0; i++) { 
+        //     filter.append("feGaussianBlur")
+        //         .attr("class", "blur")
+        //         .attr("stdDeviation", 1)
+        //         .attr("result", "coloredBlur");
+        // }
 
 
         var feMerge = filter.append("feMerge");
