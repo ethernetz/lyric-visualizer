@@ -1,4 +1,4 @@
-import { Subject, Observable } from 'rxjs';
+import { Subject, Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators/map'
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -13,7 +13,7 @@ export class SongService{
     private songUpdated = new Subject<Song>();
 
     private songInfo: SongOption;
-    private songInfoUpdated = new Subject<SongOption>();
+    private songInfoUpdated = new BehaviorSubject<SongOption>(null);
 
     private songOptions: SongOption[];
     private songOptionsUpdated = new Subject<SongOption[]>();
@@ -26,7 +26,7 @@ export class SongService{
     }
     
     getSong(selectedSong: SongOption) {
-        this.getSongInfo(selectedSong);
+        this.updateSongInfo(selectedSong);
         this.http
         .get('https://api.lyrics.ovh/v1/' + selectedSong.artist + '/' + selectedSong.title)
         .subscribe((lyricsAsJSON) => {
@@ -52,10 +52,13 @@ export class SongService{
         });
     }
 
-    getSongInfo(selectedSong: SongOption){
-        console.log(selectedSong);
+    updateSongInfo(selectedSong: SongOption){
         this.songInfo = selectedSong;
         this.songInfoUpdated.next(this.songInfo);
+    }    
+
+    getSongInfoObservable(){
+        return this.songInfoUpdated.asObservable();
     }
 
 
@@ -93,12 +96,5 @@ export class SongService{
     getAlbumArtUrlUpdateListener() {
         return this.albumArtUrlUpdated.asObservable();
     }
-
-    getSongInfoUpdateListener() {
-        return this.songInfoUpdated.asObservable();
-    }
-
-
-
 
 }
