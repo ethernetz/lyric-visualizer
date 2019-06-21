@@ -39,6 +39,11 @@ export class GraphComponent {
         let point_set: Set<string> = new Set();
         let matrix: Array<Link> = new Array();
         for (let i = 0; i < lyrics.length; i++) {
+            if (lyrics_map.has(lyrics[i])) {
+                lyrics_map.set(lyrics[i], lyrics_map.get(lyrics[i]) + 1);
+            } else {
+                lyrics_map.set(lyrics[i], 1);
+            }
             for (let j = 0; j < lyrics.length; j++) {
                 if (lyrics[i].toUpperCase() === lyrics[j].toUpperCase()) {
                     point_set.add(i + "," + j);
@@ -47,11 +52,6 @@ export class GraphComponent {
                         x: i.toString(),
                         y: j.toString(),
                         weight: "0"
-                    }
-                    if (lyrics_map.has(lyrics[i])) {
-                        lyrics_map.set(lyrics[i], lyrics_map.get(lyrics[i]) + 1);
-                    } else {
-                        lyrics_map.set(lyrics[i], 2)
                     }
                     link.weight = lyrics_map.get(lyrics[i]).toString();
                     matrix.push(link);
