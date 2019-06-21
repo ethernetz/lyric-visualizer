@@ -28,8 +28,8 @@ export class GraphComponent {
 
     ngOnInit() {
         let starterSong: SongOption = {
-            title: "Hymn for the Weekend",
-            artist: "Coldplay"
+            title: "Testify",
+            artist: "Rage Against the Machine"
         }
         this.songService.getSong(starterSong);
         this.songService.getAlbumArt(starterSong);
@@ -94,15 +94,18 @@ export class GraphComponent {
         //Filter for the outside glow
         var filter = defs.append("filter")
             .attr("id", "glow")
-            .attr("width", "300%")
-            .attr("height", "300%");
+            .attr("width", "1000%")
+            .attr("height", "1000%")
+            .attr("x", "-450%")
+            .attr("y", "-450%");
 
-
-        filter.append("feGaussianBlur")
-            .style("fill", "green")
+        for(var i = 0; i < 10; i++){
+            filter.append("feGaussianBlur")
             .attr("class", "blur")
-            .attr("stdDeviation", "6")
+            .attr("stdDeviation", 10)
             .attr("result", "coloredBlur");
+        }
+
 
         var feMerge = filter.append("feMerge");
         feMerge.append("feMergeNode")

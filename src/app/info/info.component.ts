@@ -31,7 +31,6 @@ export class InfoComponent implements OnInit{
         .getAlbumArtUrlUpdateListener()
         .subscribe((selectedSongAlbumArtUrl: string) => {
             this.selectedSongAlbumArtUrl = selectedSongAlbumArtUrl;
-            console.log(this.selectedSongAlbumArtUrl)
         })
     }
 

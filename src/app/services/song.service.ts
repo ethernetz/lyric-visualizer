@@ -23,6 +23,7 @@ export class SongService{
     }
     
     getSong(selectedSong: SongOption) {
+        // this.songUpdated.next(null);
         this.http
         .get('https://api.lyrics.ovh/v1/' + selectedSong.artist + '/' + selectedSong.title)
         .subscribe((lyricsAsJSON) => {
@@ -33,12 +34,9 @@ export class SongService{
 
     getAlbumArt(selectedSong: SongOption) {
         this.albumArtUrlUpdated.next(null);
-
         this.http.jsonp('https://api.deezer.com/search?output=jsonp&callback=JSONP_CALLBACK&limit=1&q=' + selectedSong.title + " " + selectedSong.artist, 'JSONP_CALLBACK')
         .subscribe((songOptionsAsJSON: any) => {
-            console.log(songOptionsAsJSON.data[0].album.cover_medium);
             this.albumArtUrl = songOptionsAsJSON.data[0].album.cover_medium;
-            
             this.albumArtUrlUpdated.next(this.albumArtUrl);
         })
     }
