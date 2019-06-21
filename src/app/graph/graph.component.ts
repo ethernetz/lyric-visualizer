@@ -19,6 +19,8 @@ export class GraphComponent {
     private songSub: Subscription;
     song: Song = null;
 
+    private sorted_lyrics_map;
+
     constructor(
         public songService: SongService
     ) { }
@@ -113,7 +115,7 @@ export class GraphComponent {
             .attr("y", function (d) { return matrixScale(parseInt(d.y)) })
             .attr("class", "exampleGlow")
             .style("fill", (d) => {
-                return this.weightToColor();
+                return this.idToColor(d.id);
             }).on("mouseover", function (d) {
                 return tooltip.style("visibility", "visible").text(d.id);
             })
@@ -150,6 +152,7 @@ export class GraphComponent {
         var matrix_data = this.buildMatrix(lyrics_array);
         let matrix: Link[] = matrix_data.matrix;
         let lyrics_map: Map<string, number> = matrix_data.map;
+        this.sorted_lyrics_map = new Map([...lyrics_map.entries()].sort((a, b) => b[1] - a[1]));
         let point_set: Set<string> = matrix_data.set;
         const result: Link[] = matrix.filter((element) => {
             let upper_point = (parseInt(element.x) + 1) + "," + (parseInt(element.y) + 1);
@@ -157,15 +160,25 @@ export class GraphComponent {
             return (point_set.has(upper_point) || point_set.has(lower_point));
         });
 
+
+
+
         //Create color filter
         this.createFilter(svg);
         this.drawRectangles(lyrics_array.length, initialWidth, result, svg);
     }
 
-    weightToColor(): string {
-        let index = Math.floor((Math.random() * 5));
-        let color_array: Array<string> = ["#FAFE09", "#FF00FF", "#01F4FF", "#0CD8AB", "#FF8704"]
-        return color_array[index];
+    idToColor(id: string): string {
+        let i = 0;
+        let color: string = null;
+        this.sorted_lyrics_map.forEach((value: number, key: string) => {
+         if (key == id && i < 3) {
+            let color_array: Array<string> = ["#FF00FF", "#01F4FF", "#0CD8AB", "#FF8704"]
+                color = color_array[i];
+            }
+            i++;
+        })
+        return color ? color : "#FAFE09";
     }
 
 }
