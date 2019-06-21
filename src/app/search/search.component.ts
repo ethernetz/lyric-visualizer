@@ -22,8 +22,6 @@ export class SearchComponent implements OnInit{
     private songOptionsSub: Subscription;
     private selectedAutocomplete: boolean = false;
 
-    private timeSinceLastKeypress: number = 0;
-
     constructor(private fb: FormBuilder, private songService: SongService) {}
 
     ngOnInit(){
@@ -38,12 +36,16 @@ export class SearchComponent implements OnInit{
         });
 
         this.searchbox.valueChanges.pipe(
-            debounceTime(50),
+            debounceTime(300),
         ).subscribe(searchterm => {
-            if(this.searchbox.status == 'VALID' && !this.selectedAutocomplete){
+            if(this.searchbox.status == 'VALID'){
+                for(var i = 0; i < this.songOptions.length; i++){
+                    if(this.searchbox.value == this.songOptions[i].title + " - by " + this.songOptions[i].artist){
+                        this.fetchSong(this.songOptions[i]);
+                    }
+                }
                 this.search(searchterm);
             } else {
-                this.selectedAutocomplete = false;
                 this.clearSearchResults()
             }
         })
@@ -61,9 +63,10 @@ export class SearchComponent implements OnInit{
         this.songOptions = [];
     }
 
-    fetchSong($event, song) {
+    fetchSong(song) {
+        console.log('fetching...')
         this.selectedAutocomplete = true;
-        this.myForm.setValue({searchbox: song.title});
+        // this.myForm.setValue({searchbox: song.title});
         this.clearSearchResults();
         this.songService.getSong(song);
         this.songService.getAlbumArt(song);
