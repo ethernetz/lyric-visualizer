@@ -12,6 +12,9 @@ export class SongService{
     private song: Song;
     private songUpdated = new Subject<Song>();
 
+    private songInfo: SongOption;
+    private songInfoUpdated = new Subject<SongOption>();
+
     private songOptions: SongOption[];
     private songOptionsUpdated = new Subject<SongOption[]>();
 
@@ -23,7 +26,7 @@ export class SongService{
     }
     
     getSong(selectedSong: SongOption) {
-        // this.songUpdated.next(null);
+        this.getSongInfo(selectedSong);
         this.http
         .get('https://api.lyrics.ovh/v1/' + selectedSong.artist + '/' + selectedSong.title)
         .subscribe((lyricsAsJSON) => {
@@ -41,6 +44,20 @@ export class SongService{
         })
     }
 
+    getAutocomplete(terms: String) {
+        this.http.get('http://ws.audioscrobbler.com/2.0/?method=track.search&track=' + terms + '&limit=5&api_key=49386e5f87311a82ff3de554345a8053&format=json')
+        .subscribe((songOptionsAsJSON: any) => {
+            this.songOptions = this.toSongOptions(songOptionsAsJSON);
+            this.songOptionsUpdated.next(this.songOptions);
+        });
+    }
+
+    getSongInfo(selectedSong: SongOption){
+        console.log(selectedSong);
+        this.songInfo = selectedSong;
+        this.songInfoUpdated.next(this.songInfo);
+    }
+
 
     toSong(selectedSong: SongOption, lyricsAsJSON): Song {
         let song: Song = {
@@ -50,13 +67,7 @@ export class SongService{
         return song;
     }
 
-    getAutocomplete(terms: String) {
-        this.http.get('http://ws.audioscrobbler.com/2.0/?method=track.search&track=' + terms + '&limit=5&api_key=49386e5f87311a82ff3de554345a8053&format=json')
-        .subscribe((songOptionsAsJSON: any) => {
-            this.songOptions = this.toSongOptions(songOptionsAsJSON);
-            this.songOptionsUpdated.next(this.songOptions);
-        });
-    }
+    
 
     toSongOptions(songOptionsAsJSON): SongOption[]{
         let songOptions: SongOption[] = [];
@@ -81,6 +92,10 @@ export class SongService{
 
     getAlbumArtUrlUpdateListener() {
         return this.albumArtUrlUpdated.asObservable();
+    }
+
+    getSongInfoUpdateListener() {
+        return this.songInfoUpdated.asObservable();
     }
 
 

@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SongService } from '../services/song.service';
-import { Song } from '../models/song.model';
 import { Subscription } from 'rxjs';
-import { select } from 'd3';
+import { SongOption } from '../models/song-option.model';
 
 @Component({
     selector: 'app-info',
@@ -13,7 +12,7 @@ import { select } from 'd3';
 export class InfoComponent implements OnInit{
     constructor(private songService: SongService){}
 
-    public selectedSong: Song = null;
+    public selectedSong: SongOption = null;
     public selectedSongSub: Subscription;
 
     public selectedSongAlbumArtUrl: string = null;
@@ -22,8 +21,9 @@ export class InfoComponent implements OnInit{
     
     ngOnInit(){
         this.selectedSongSub = this.songService
-        .getSongUpdateListener()
-        .subscribe((selectedSong: Song) => {
+        .getSongInfoUpdateListener()
+        .subscribe((selectedSong: SongOption) => {
+            console.log('here')
             this.selectedSong = selectedSong;
         })
 
@@ -32,6 +32,14 @@ export class InfoComponent implements OnInit{
         .subscribe((selectedSongAlbumArtUrl: string) => {
             this.selectedSongAlbumArtUrl = selectedSongAlbumArtUrl;
         })
+    
+        let starterSong: SongOption = {
+            title: "Testify",
+            artist: "Rage Against the Machine"
+        }
+        this.songService.getSong(starterSong);
+        this.songService.getAlbumArt(starterSong);
+        this.songService.getSongInfo(starterSong);
     }
 
 }

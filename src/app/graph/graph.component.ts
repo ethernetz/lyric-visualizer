@@ -25,13 +25,6 @@ export class GraphComponent {
 
 
     ngOnInit() {
-        let starterSong: SongOption = {
-            title: "Testify",
-            artist: "Rage Against the Machine"
-        }
-        this.songService.getSong(starterSong);
-        this.songService.getAlbumArt(starterSong);
-
         this.songSub = this.songService
             .getSongUpdateListener()
             .subscribe((song: Song) => {
