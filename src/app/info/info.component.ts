@@ -15,6 +15,7 @@ export class InfoComponent implements OnInit{
     public selectedSongSub: Subscription;
 
     public songInfoObs: Observable<SongOption>;
+    public songAlbumUrlObs: Observable<string>;
 
     public selectedSongAlbumArtUrl: string = null;
     public selectedSongAlbumArtUrlUpdated: Subscription;
@@ -22,19 +23,13 @@ export class InfoComponent implements OnInit{
     
     ngOnInit(){
         this.songInfoObs = this.songService.getSongInfoObservable();
-        
-        this.selectedSongSub = this.songService
-        .getAlbumArtUrlUpdateListener()
-        .subscribe((selectedSongAlbumArtUrl: string) => {
-            this.selectedSongAlbumArtUrl = selectedSongAlbumArtUrl;
-        })
+        this.songAlbumUrlObs = this.songService.getSongAlbumUrlObservable();
     
         let starterSong: SongOption = {
             title: "Bad  Romance",
             artist: "Lady Gaga"
         }
         this.songService.getSong(starterSong);
-        this.songService.getAlbumArt(starterSong);
     }
 
 }
