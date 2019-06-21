@@ -32,6 +32,7 @@ export class GraphComponent {
             artist: "Coldplay"
         }
         this.songService.getSong(starterSong);
+        this.songService.getAlbumArt(starterSong);
 
         this.songSub = this.songService
             .getSongUpdateListener()

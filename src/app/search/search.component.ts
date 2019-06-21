@@ -20,6 +20,7 @@ export class SearchComponent implements OnInit{
     
     private songOptions: SongOption[] = [];
     private songOptionsSub: Subscription;
+    private selectedAutocomplete: boolean = false;
 
     private timeSinceLastKeypress: number = 0;
 
@@ -37,11 +38,12 @@ export class SearchComponent implements OnInit{
         });
 
         this.searchbox.valueChanges.pipe(
-            debounceTime(300),
+            debounceTime(50),
         ).subscribe(searchterm => {
-            if(this.searchbox.status == 'VALID'){
+            if(this.searchbox.status == 'VALID' && !this.selectedAutocomplete){
                 this.search(searchterm);
             } else {
+                this.selectedAutocomplete = false;
                 this.clearSearchResults()
             }
         })
@@ -60,7 +62,11 @@ export class SearchComponent implements OnInit{
     }
 
     fetchSong($event, song) {
+        this.selectedAutocomplete = true;
+        this.myForm.setValue({searchbox: song.title});
+        this.clearSearchResults();
         this.songService.getSong(song);
+        this.songService.getAlbumArt(song);
     }
     
 }   

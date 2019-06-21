@@ -1,4 +1,13 @@
 <div id="info-div" *ngIf="selectedSong">
-    <h1>{{selectedSong.metadata.title}}</h1>
-    <h2>{{selectedSong.metadata.artist}}</h2>
+    <div *ngIf="selectedSongAlbumArtUrl else default">
+            <img src={{selectedSongAlbumArtUrl}} alt="">
+    </div>
+    <ng-template #default>
+        <div class="loading">
+            <div class="lds-facebook"><div></div><div></div><div></div></div>
+        </div>
+    </ng-template>
+    
+    <div class="song_title">{{selectedSong.metadata.title}}</div>
+    <div class="artist">{{selectedSong.metadata.artist}}</div>
 </div>

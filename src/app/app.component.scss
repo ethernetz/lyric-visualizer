@@ -1,6 +1,8 @@
 .main {
     grid-area: main;
-}
+    align-self: center;
+    margin: 0 auto;
+  }
 
 .sidebar {
     grid-area: right;
@@ -8,9 +10,9 @@
 
 .grid-container {
     display: grid;
+    // justify-items: center;
     grid-template-areas:
-      'main main main main main right'
-      'main main main main main right';
+      'main right';
     grid-column-gap: 30px;
-    padding: 10px;
+    padding-top: 5vh;
   }

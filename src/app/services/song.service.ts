@@ -15,6 +15,10 @@ export class SongService{
     private songOptions: SongOption[];
     private songOptionsUpdated = new Subject<SongOption[]>();
 
+    private albumArtUrl: string;
+    private albumArtUrlUpdated = new Subject<string>();
+
+
     constructor(private http: HttpClient) {
     }
     
@@ -27,6 +31,22 @@ export class SongService{
         });
     }
 
+    getAlbumArt(selectedSong: SongOption) {
+        this.albumArtUrlUpdated.next(null);
+        this.http
+        .get('http://www.musicbrainz.org/ws/2/recording/?query=artist:' + selectedSong.artist + '+recording:' + selectedSong.title)
+        .subscribe((metadata: any) => {
+            console.log(metadata.recordings[0].releases[0].id);
+            this.http
+            .get('http://coverartarchive.org/release/' + metadata.recordings[0].releases[0].id + '/')
+            .subscribe((metadata: any) => {
+                this.albumArtUrl = metadata.images[0].image;
+                this.albumArtUrlUpdated.next(this.albumArtUrl);
+            })
+        });
+    }
+
+
     toSong(selectedSong: SongOption, lyricsAsJSON): Song {
         let song: Song = {
             metadata: selectedSong,
@@ -36,7 +56,6 @@ export class SongService{
     }
 
     getAutocomplete(terms: String) {
-        console.log('autocompleting...')
         this.http.get('http://ws.audioscrobbler.com/2.0/?method=track.search&track=' + terms + '&limit=5&api_key=49386e5f87311a82ff3de554345a8053&format=json')
         .subscribe((songOptionsAsJSON: any) => {
             this.songOptions = this.toSongOptions(songOptionsAsJSON);
@@ -63,6 +82,10 @@ export class SongService{
 
     getSongUpdateListener() {
         return this.songUpdated.asObservable();
+    }
+
+    getAlbumArtUrlUpdateListener() {
+        return this.albumArtUrlUpdated.asObservable();
     }
 
 
