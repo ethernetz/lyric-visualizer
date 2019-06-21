@@ -91,13 +91,16 @@ export class GraphComponent {
             .attr("in", "SourceGraphic");
     }
 
-    drawRectangles(lyrics_array_length: number, initialWidth: number, result: Link[]) {
+    drawRectangles(lyrics_array_length: number, initialWidth: number, result: Link[], svg: any) {
         var tooltip = d3.select("#graph")
             .append("div")
             .attr('class', 'tooltip');
         let matrixScale = d3.scaleLinear().domain([0, lyrics_array_length]).range([0, initialWidth])
         var selection = d3.select("g")
             .append("g")
+            .call(d3.zoom().on("zoom", function () {
+                svg.attr("transform", d3.event.transform)
+            }))
             .attr("id", "adjacencyG")
             .selectAll("rect")
             .data(result)
@@ -120,7 +123,7 @@ export class GraphComponent {
             .on("mousemove", function () {
 
                 // eslint-disable-next-line no-restricted-globals
-                return tooltip.style("top", (d3.event.pageY -50) + "px")
+                return tooltip.style("top", (d3.event.pageY - 50) + "px")
                     // eslint-disable-next-line no-restricted-globals
                     .style("left", d3.event.pageX + "px");
             })
@@ -156,7 +159,7 @@ export class GraphComponent {
 
         //Create color filter
         this.createFilter(svg);
-        this.drawRectangles(lyrics_array.length, initialWidth, result);
+        this.drawRectangles(lyrics_array.length, initialWidth, result, svg);
     }
 
     weightToColor(): string {
