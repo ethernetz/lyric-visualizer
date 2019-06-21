@@ -34,8 +34,8 @@ export class InfoComponent implements OnInit{
         })
     
         let starterSong: SongOption = {
-            title: "Testify",
-            artist: "Rage Against the Machine"
+            title: "Bad  Romance",
+            artist: "Lady Gaga"
         }
         this.songService.getSong(starterSong);
         this.songService.getAlbumArt(starterSong);
