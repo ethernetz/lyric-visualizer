@@ -20,7 +20,6 @@ export class SearchComponent implements OnInit{
     
     private songOptions: SongOption[] = [];
     private songOptionsSub: Subscription;
-    private selectedAutocomplete: boolean = false;
 
     constructor(private fb: FormBuilder, private songService: SongService) {}
 
@@ -64,12 +63,8 @@ export class SearchComponent implements OnInit{
     }
 
     fetchSong(song) {
-        console.log('fetching...')
-        this.selectedAutocomplete = true;
-        // this.myForm.setValue({searchbox: song.title});
         this.clearSearchResults();
         this.songService.getSong(song);
-        this.songService.getAlbumArt(song);
     }
     
 }   

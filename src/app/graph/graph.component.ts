@@ -76,11 +76,11 @@ export class GraphComponent {
             .attr("x", "-450%")
             .attr("y", "-450%");
 
-        for (var i = 0; i < 1; i++) {
+        for (var i = 0; i < 5; i++) {
             filter.append("feGaussianBlur")
                 .attr("class", "blur")
-                .attr("stdDeviation", 20)
-                .attr("result", "coloredBlur");
+                .attr("stdDeviation", 1)
+                // .attr("result", "coloredBlur");
         }
 
 

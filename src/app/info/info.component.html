@@ -1,13 +1,20 @@
-<div id="info-div" *ngIf="selectedSong">
-    <div *ngIf="selectedSongAlbumArtUrl else default">
+<div id="info-div">
+        <div *ngIf="songAlbumUrlObs | async as selectedSongAlbumArtUrl else loading">
             <img src={{selectedSongAlbumArtUrl}} alt="">
-    </div>
-    <ng-template #default>
-        <div class="loading">
-            <div class="lds-facebook"><div></div><div></div><div></div></div>
         </div>
-    </ng-template>
-    
-    <div class="song_title">{{selectedSong.title}}</div>
-    <div class="artist">{{selectedSong.artist}}</div>
+        <ng-template #loading>
+            <div class="loading">
+                <div class="lds-facebook">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+        </ng-template>
+
+    <div class="song-info" *ngIf="songInfoObs | async as song">
+        <div class="song_title">{{song.title}}</div>
+        <div class="artist">{{song.artist}}</div>
+    </div>
+
 </div>
