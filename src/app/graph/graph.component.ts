@@ -110,7 +110,6 @@ export class GraphComponent {
                 .attr("result", "coloredBlur");
         }
 
-
         var feMerge = filter.append("feMerge");
         feMerge.append("feMergeNode")
             .attr("in", "coloredBlur");
