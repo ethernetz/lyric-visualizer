@@ -4,7 +4,7 @@ import * as d3 from 'd3';
 import * as _ from 'lodash';
 
 import { Song } from '../models/song.model';
-import { SongOption } from '../models/song-option.model';
+import { Frequency } from '../models/frequency.model';
 import { SongService } from '../services/song.service';
 import { Link } from '../models/link.model';
 
@@ -32,6 +32,17 @@ export class GraphComponent {
                 d3.select("svg").remove();
                 this.graphViz(this.song.lyrics);
             })
+    }
+
+    sortMap(mapToSort : Map<string, number>) : Array<Frequency> {
+        let frequency_array : Array<Frequency> = new Array();
+        mapToSort.forEach((value, key) => {
+            frequency_array.push(new Frequency(key, value));
+        });
+        frequency_array.sort((a : Frequency, b : Frequency) => {
+            return a.frequency - b.frequency;
+        });
+        return frequency_array;
     }
 
     getDiagonalPhrase(point: string, point_map: Map<string, string>): string {
