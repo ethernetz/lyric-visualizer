@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <title>LyricVisualizer</title>
@@ -8,18 +9,30 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
   <style>
-      body {
-        background-color: #252425;
-      }   
-      .background{
-        fill: #252425;
-      }
-      .test-shadow {
-        box-shadow: 120px 80px 40px 20px #0ff;
-      }
-    </style>
+    body {
+      background-color: #252425;
+    }
+
+    .background {
+      fill: #252425;
+    }
+
+    .tooltip {
+      position: absolute;
+      z-index: 10;
+      visibility: hidden;
+      background-color: lightblue;
+      text-align: center;
+      padding: 4px;
+      border-radius: 4px;
+      font-weight: bold;
+      color: orange;
+    }
+  </style>
 </head>
+
 <body>
   <app-root></app-root>
 </body>
+
 </html>

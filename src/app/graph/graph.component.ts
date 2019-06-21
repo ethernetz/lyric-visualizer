@@ -91,7 +91,10 @@ export class GraphComponent {
             .attr("in", "SourceGraphic");
     }
 
-    drawRectangles(lyrics_array_length : number, initialWidth : number, result : Link[]) {
+    drawRectangles(lyrics_array_length: number, initialWidth: number, result: Link[]) {
+        var tooltip = d3.select("#graph")
+            .append("div")
+            .attr('class', 'tooltip');
         let matrixScale = d3.scaleLinear().domain([0, lyrics_array_length]).range([0, initialWidth])
         var selection = d3.select("g")
             .append("g")
@@ -108,6 +111,24 @@ export class GraphComponent {
             .attr("class", "exampleGlow")
             .style("fill", (d) => {
                 return this.weightToColor();
+            }).on("mouseover", function (d) {
+                return tooltip.style("visibility", "visible").text(d.id);
+            })
+
+            // we move tooltip during of "mousemove"
+
+            .on("mousemove", function () {
+
+                // eslint-disable-next-line no-restricted-globals
+                return tooltip.style("top", (d3.event.pageY -50) + "px")
+                    // eslint-disable-next-line no-restricted-globals
+                    .style("left", d3.event.pageX + "px");
+            })
+
+            // we hide our tooltip on "mouseout"
+
+            .on("mouseout", function () {
+                return tooltip.style("visibility", "hidden");
             });
 
         d3.selectAll(".exampleGlow").style("filter", "url(#glow)");
@@ -127,7 +148,7 @@ export class GraphComponent {
         let matrix: Link[] = matrix_data.matrix;
         let lyrics_map: Map<string, number> = matrix_data.map;
         let point_set: Set<string> = matrix_data.set;
-        const result : Link[] = matrix.filter((element) => {
+        const result: Link[] = matrix.filter((element) => {
             let upper_point = (parseInt(element.x) + 1) + "," + (parseInt(element.y) + 1);
             let lower_point = (parseInt(element.x) - 1) + "," + (parseInt(element.y) - 1);
             return (point_set.has(upper_point) || point_set.has(lower_point));
@@ -135,7 +156,7 @@ export class GraphComponent {
 
         //Create color filter
         this.createFilter(svg);
-        this.drawRectangles(lyrics_array.length, initialWidth, result)
+        this.drawRectangles(lyrics_array.length, initialWidth, result);
     }
 
     weightToColor(): string {
