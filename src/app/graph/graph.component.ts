@@ -70,6 +70,9 @@ export class GraphComponent {
 
     graphViz(lyrics: string) {
 
+        let graphStyle = window.getComputedStyle(document.getElementById('graph'))
+        var initialWidth = parseFloat(graphStyle.width);
+
         var height = "100%"; 
         var width = "100%";
 
@@ -108,7 +111,7 @@ export class GraphComponent {
 
         const result = matrix.filter((element) => parseInt(element.weight));
 
-        let matrixScale = d3.scaleLinear().domain([0, lyrics_array.length]).range([0, 700])
+        let matrixScale = d3.scaleLinear().domain([0, lyrics_array.length]).range([0, initialWidth])
         // console.log(d3.select('body').select('svg').node().getBBox())
 
         var selection = d3.select("g")

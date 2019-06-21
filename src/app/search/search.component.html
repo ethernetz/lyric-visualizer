@@ -1,12 +1,15 @@
 <form [formGroup]="myForm">
     <div class="input-wrapper" data-text="">
-        <input type="text" placeholder="Search">          
-      </div>
+        <input type="text" formControlName="searchbox" placeholder="Search">
+    </div>
 </form>
 
 
 <ng-container *ngIf="songOptions.length > 0">
-    <div *ngFor="let song of songOptions" (click)="fetchSong($event, song)">
-        <h4>{{ song.title }} - by {{ song.artist }}</h4>
+    <div class="autocomplete">
+        <div *ngFor="let song of songOptions" (click)="fetchSong($event, song)" class="autocomplete_option">
+            {{ song.title }} - by {{ song.artist }}
+        </div>
     </div>
+
 </ng-container>

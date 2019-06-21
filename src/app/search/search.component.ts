@@ -33,13 +33,13 @@ export class SearchComponent implements OnInit{
         })
 
         this.myForm = this.fb.group({
-            searcbox: ['', [Validators.required, Validators.min(1)]]
+            searchbox: ['', [Validators.required, Validators.min(1)]]
         });
 
-        this.searcbox.valueChanges.pipe(
+        this.searchbox.valueChanges.pipe(
             debounceTime(300),
         ).subscribe(searchterm => {
-            if(this.searcbox.status == 'VALID'){
+            if(this.searchbox.status == 'VALID'){
                 this.search(searchterm);
             } else {
                 this.clearSearchResults()
@@ -47,8 +47,8 @@ export class SearchComponent implements OnInit{
         })
     }
 
-    get searcbox() {
-        return this.myForm.get('searcbox');
+    get searchbox() {
+        return this.myForm.get('searchbox');
        } 
 
     search(searchterm: string) {
