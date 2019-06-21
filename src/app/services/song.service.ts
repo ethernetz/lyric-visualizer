@@ -33,17 +33,14 @@ export class SongService{
 
     getAlbumArt(selectedSong: SongOption) {
         this.albumArtUrlUpdated.next(null);
-        this.http
-        .get('http://www.musicbrainz.org/ws/2/recording/?query=artist:' + selectedSong.artist + '+recording:' + selectedSong.title)
-        .subscribe((metadata: any) => {
-            console.log(metadata.recordings[0].releases[0].id);
-            this.http
-            .get('http://coverartarchive.org/release/' + metadata.recordings[0].releases[0].id + '/')
-            .subscribe((metadata: any) => {
-                this.albumArtUrl = metadata.images[0].image;
-                this.albumArtUrlUpdated.next(this.albumArtUrl);
-            })
-        });
+
+        this.http.jsonp('https://api.deezer.com/search?output=jsonp&callback=JSONP_CALLBACK&limit=1&q=' + selectedSong.title + " " + selectedSong.artist, 'JSONP_CALLBACK')
+        .subscribe((songOptionsAsJSON: any) => {
+            console.log(songOptionsAsJSON.data[0].album.cover_medium);
+            this.albumArtUrl = songOptionsAsJSON.data[0].album.cover_medium;
+            
+            this.albumArtUrlUpdated.next(this.albumArtUrl);
+        })
     }
 
 
