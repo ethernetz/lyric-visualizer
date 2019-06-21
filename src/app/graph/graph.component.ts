@@ -99,10 +99,10 @@ export class GraphComponent {
             .attr("x", "-450%")
             .attr("y", "-450%");
 
-        for(var i = 0; i < 10; i++){
+        for(var i = 0; i < 300/lyrics_array.length; i++){
             filter.append("feGaussianBlur")
             .attr("class", "blur")
-            .attr("stdDeviation", 10)
+            .attr("stdDeviation", 20)
             .attr("result", "coloredBlur");
         }
 
