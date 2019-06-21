@@ -34,9 +34,36 @@ export class GraphComponent {
             })
     }
 
+    getDiagonalPhrase(point: string, point_map: Map<string, string>): string {
+        let phrase: Array<string> = new Array();
+        let x: number = parseInt(point.split(",")[0]);
+        let y: number = parseInt(point.split(",")[1]);
+        while (point_map.has(x + "," + y)) {
+            phrase.push(point_map.get(x + "," + y));
+            x--;
+            y--;
+        }
+
+        let phrase_string: string = "";
+        console.log(phrase);
+        for (let i = phrase.length - 1; i >= 0; i--) {
+            phrase_string += phrase[i]; 
+            phrase_string += " ";
+        }
+        x = parseInt(point.split(",")[0]) + 1;
+        y = parseInt(point.split(",")[1]) + 1;
+        while (point_map.has(x + "," + y)) {
+            phrase_string += point_map.get(x + "," + y);
+            phrase_string += " ";
+            x++;
+            y++;
+        }
+        return phrase_string;
+    }
+
     buildMatrix(lyrics: string[]): any {
         let lyrics_map: Map<string, number> = new Map();
-        let point_set: Set<string> = new Set();
+        let point_map: Map<string, string> = new Map();
         let matrix: Array<Link> = new Array();
         for (let i = 0; i < lyrics.length; i++) {
             if (lyrics_map.has(lyrics[i])) {
@@ -46,7 +73,7 @@ export class GraphComponent {
             }
             for (let j = 0; j < lyrics.length; j++) {
                 if (lyrics[i].toUpperCase() === lyrics[j].toUpperCase()) {
-                    point_set.add(i + "," + j);
+                    point_map.set(i + "," + j, lyrics[i]);
                     let link: Link = {
                         id: lyrics[i],
                         x: i.toString(),
@@ -58,7 +85,7 @@ export class GraphComponent {
                 }
             }
         }
-        return { matrix: matrix, map: lyrics_map, set: point_set };
+        return { matrix: matrix, map: lyrics_map, point_map: point_map };
     }
 
     createFilter(svg) {
@@ -76,11 +103,11 @@ export class GraphComponent {
             .attr("x", "-450%")
             .attr("y", "-450%");
 
-        for (var i = 0; i < 5; i++) {
+        for (var i = 0; i < 1; i++) {
             filter.append("feGaussianBlur")
                 .attr("class", "blur")
                 .attr("stdDeviation", 1)
-                // .attr("result", "coloredBlur");
+                .attr("result", "coloredBlur");
         }
 
 
@@ -91,7 +118,7 @@ export class GraphComponent {
             .attr("in", "SourceGraphic");
     }
 
-    drawRectangles(lyrics_array_length: number, initialWidth: number, result: Link[], svg: any) {
+    drawRectangles(lyrics_array_length: number, initialWidth: number, result: Link[], svg: any, point_map : Map<string, string>) {
         var tooltip = d3.select("#graph")
             .append("div")
             .attr('class', 'tooltip');
@@ -114,8 +141,12 @@ export class GraphComponent {
             .attr("class", "exampleGlow")
             .style("fill", (d) => {
                 return this.weightToColor();
-            }).on("mouseover", function (d) {
-                return tooltip.style("visibility", "visible").text(d.id);
+            }).on("mouseover", (d) => {
+                if (d.x === d.y) {
+                    return tooltip.style("visibility", "visible").text(d.id);
+                }
+
+                return tooltip.style("visibility", "visible").text(this.getDiagonalPhrase(d.x + "," + d.y, point_map));
             })
 
             // we move tooltip during of "mousemove"
@@ -150,16 +181,16 @@ export class GraphComponent {
         var matrix_data = this.buildMatrix(lyrics_array);
         let matrix: Link[] = matrix_data.matrix;
         let lyrics_map: Map<string, number> = matrix_data.map;
-        let point_set: Set<string> = matrix_data.set;
+        let point_map: Map<string, string> = matrix_data.point_map;
         const result: Link[] = matrix.filter((element) => {
             let upper_point = (parseInt(element.x) + 1) + "," + (parseInt(element.y) + 1);
             let lower_point = (parseInt(element.x) - 1) + "," + (parseInt(element.y) - 1);
-            return (point_set.has(upper_point) || point_set.has(lower_point));
+            return (point_map.has(upper_point) || point_map.has(lower_point));
         });
 
         //Create color filter
         this.createFilter(svg);
-        this.drawRectangles(lyrics_array.length, initialWidth, result, svg);
+        this.drawRectangles(lyrics_array.length, initialWidth, result, svg, point_map);
     }
 
     weightToColor(): string {

@@ -26,8 +26,8 @@ export class InfoComponent implements OnInit{
         this.songAlbumUrlObs = this.songService.getSongAlbumUrlObservable();
     
         let starterSong: SongOption = {
-            title: "Bad  Romance",
-            artist: "Lady Gaga"
+            title: "Testify",
+            artist: "Rage Against The Machine"
         }
         this.songService.getSong(starterSong);
     }
