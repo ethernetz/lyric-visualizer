@@ -15,6 +15,7 @@ export class GraphDisplayComponent implements OnInit {
     private sorted_lyrics_map;
 
     ngOnInit() {
+        d3.select("svg").remove();
         this.graphViz(this.lyrics);
     }
 
@@ -29,7 +30,7 @@ export class GraphDisplayComponent implements OnInit {
         var initialWidth = parseFloat(graphStyle.width);
         var height = "100%";
         var width = "100%";
-        var svg = d3.select("#graph").append("svg").attr("width", width).attr("height", height);
+        var svg = d3.select("#graph-display").append("svg").attr("width", width).attr("height", height);
 
         //Analyze data recieved
         let lyrics_array: string[] = lyrics.split(/\s+/);

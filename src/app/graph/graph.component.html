@@ -1,3 +1,12 @@
 <div id="graph">
-    <app-graph-display *ngIf="song" [lyrics]="song.lyrics"></app-graph-display>
+    <app-graph-display id="graph-display" *ngIf="songObs | async as song else loading" [lyrics]="song.lyrics"></app-graph-display>
+    <ng-template #loading>
+            <div class="loading">
+                <div class="lds-facebook">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+        </ng-template>
 </div>

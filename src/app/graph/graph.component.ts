@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 
 import { Song } from '../models/song.model';
 import { SongService } from '../services/song.service';
@@ -12,22 +12,13 @@ import { SongService } from '../services/song.service';
 
 export class GraphComponent {
 
-    private songSub: Subscription;
-    song: Song = null;
+    private songObs: Observable<Song>;
 
-    private sorted_lyrics_map;
-
-    constructor(
-        public songService: SongService
-    ) { }
+    constructor(public songService: SongService){}
 
 
     ngOnInit() {
-        this.songSub = this.songService
-            .getSongUpdateListener()
-            .subscribe((song: Song) => {
-                this.song = song
-            })
+        this.songObs = this.songService.getSongObservable();
     }
 
     

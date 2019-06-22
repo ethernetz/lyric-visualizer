@@ -26,6 +26,7 @@ export class SongService{
     }
     
     getSong(selectedSong: SongOption) {
+        this.songUpdated.next(null);
         this.updateSongInfo(selectedSong);
         this.updateAlbumArtUrl(selectedSong)
         this.http
@@ -35,13 +36,20 @@ export class SongService{
             this.songUpdated.next(this.song);
         });
     }
+    getSongObservable() {
+        return this.songUpdated.asObservable();
+    }
 
+    
     getAutocomplete(terms: String) {
         this.http.get('http://ws.audioscrobbler.com/2.0/?method=track.search&track=' + terms + '&limit=5&api_key=49386e5f87311a82ff3de554345a8053&format=json')
         .subscribe((songOptionsAsJSON: any) => {
             this.songOptions = this.toSongOptions(songOptionsAsJSON);
             this.songOptionsUpdated.next(this.songOptions);
         });
+    }
+    getAutocompleteListener() {
+        return this.songOptionsUpdated.asObservable();
     }
 
     
@@ -53,19 +61,20 @@ export class SongService{
             this.albumArtUrlUpdated.next(this.albumArtUrl);
         })
     }    
-
     getSongAlbumUrlObservable(){
         return this.albumArtUrlUpdated.asObservable();
     }    
     
+
     updateSongInfo(selectedSong: SongOption){
         this.songInfo = selectedSong;
         this.songInfoUpdated.next(this.songInfo);
     }    
-
     getSongInfoObservable(){
         return this.songInfoUpdated.asObservable();
     }
+
+
 
 
     toSong(selectedSong: SongOption, lyricsAsJSON): Song {
@@ -74,9 +83,7 @@ export class SongService{
             lyrics: lyricsAsJSON.lyrics
         }
         return song;
-    }
-
-    
+    }   
 
     toSongOptions(songOptionsAsJSON): SongOption[]{
         let songOptions: SongOption[] = [];
@@ -88,13 +95,5 @@ export class SongService{
            songOptions.push(songOption);
         });
         return songOptions;
-    }
-
-    getAutocompleteListener() {
-        return this.songOptionsUpdated.asObservable();
-    }
-
-    getSongUpdateListener() {
-        return this.songUpdated.asObservable();
     }
 }
