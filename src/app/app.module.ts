@@ -8,16 +8,23 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
+import { MainComponent } from './main/main.component';
 import { SearchComponent } from './search/search.component'
 import { GraphComponent } from './graph/graph.component'
 import { GraphDisplayComponent } from './graph/graph-display/graph-display.component';
 import { InfoComponent } from './info/info.component'
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { RouterModule, Routes } from '@angular/router';
 
+const routes: Routes = [
+  {path: '', component: MainComponent},
+  {path: 'search/:artist/:song', component: MainComponent}
+]
 
 @NgModule({
   declarations: [
     AppComponent,
+    MainComponent,
     GraphComponent,
     GraphDisplayComponent,
     SidebarComponent,
@@ -29,7 +36,8 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     AppRoutingModule,
     HttpClientModule,
     HttpClientJsonpModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterModule.forRoot(routes)
   ],
   providers: [],
   bootstrap: [AppComponent]

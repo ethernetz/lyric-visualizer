@@ -1,5 +1,5 @@
 import { Subject, Observable, BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators/map'
+import 'rxjs/add/operator/map'
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Song } from '../models/song.model';
@@ -60,7 +60,8 @@ export class SongService{
             this.albumArtUrl = songOptionsAsJSON.data[0].album.cover_medium;
             this.albumArtUrlUpdated.next(this.albumArtUrl);
         })
-    }    
+    }
+
     getSongAlbumUrlObservable(){
         return this.albumArtUrlUpdated.asObservable();
     }    
@@ -74,7 +75,12 @@ export class SongService{
         return this.songInfoUpdated.asObservable();
     }
 
-
+    songLookup(track: string, artist: string){
+        return this.http.get('http://ws.audioscrobbler.com/2.0/?method=track.search&track=' + track + '&artist=' + artist + '&limit=1&api_key=49386e5f87311a82ff3de554345a8053&format=json')
+        .map(res => {
+            return this.toSongOptions(res)[0];
+        })
+    }
 
 
     toSong(selectedSong: SongOption, lyricsAsJSON): Song {
