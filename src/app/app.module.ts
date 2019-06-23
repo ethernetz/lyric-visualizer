@@ -15,6 +15,7 @@ import { GraphDisplayComponent } from './graph/graph-display/graph-display.compo
 import { InfoComponent } from './info/info.component'
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { RouterModule, Routes } from '@angular/router';
+import { LoadingComponent } from './loading/loading.component';
 
 const routes: Routes = [
   {path: '', component: MainComponent},
@@ -29,7 +30,8 @@ const routes: Routes = [
     GraphDisplayComponent,
     SidebarComponent,
     SearchComponent,
-    InfoComponent
+    InfoComponent,
+    LoadingComponent
   ],
   imports: [
     BrowserModule,

@@ -3,13 +3,7 @@
             <img src={{selectedSongAlbumArtUrl}} alt="">
         </div>
         <ng-template #loading>
-            <div class="loading">
-                <div class="lds-facebook">
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                </div>
-            </div>
+            <app-loading></app-loading>
         </ng-template>
 
     <div class="song-info" *ngIf="songInfoObs | async as song">
