@@ -17,9 +17,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoadingComponent } from './loading/loading.component';
 import { HoverLyricsComponent } from './hover/hover-lyrics/hover-lyrics.component';
 import { TutorialComponent } from './tutorial/tutorial.component';
-import { LyricFormatter } from './hover/hover-lyrics/lyricFormatter';
 import { HoverComponent } from './hover/hover.component';
 import { HoverDataComponent } from './hover/hover-data/hover-data.component';
+import { LyricFormatter, HighlightPipe } from './hover/hover-lyrics/lyricFormatter';
 
 const routes: Routes = [
   {path: '', component: MainComponent},
@@ -41,7 +41,8 @@ const routes: Routes = [
     HoverLyricsComponent,
     HoverDataComponent,
     TutorialComponent,
-    LyricFormatter
+    LyricFormatter,
+    HighlightPipe
   ],
   imports: [
     BrowserModule,

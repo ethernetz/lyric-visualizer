@@ -2,15 +2,15 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { PhraseData } from '../../models/phrase-data.model';
 import * as _ from 'lodash';
 
-@Pipe({name: "lyricFormatter"})
+@Pipe({ name: "lyricFormatter" })
 export class LyricFormatter implements PipeTransform {
-    transform(lyrics : PhraseData) {
+    transform(lyrics: PhraseData) {
         if (!lyrics) {
             return false;
         }
-        let word_array : Array<string> = lyrics.phrase.split(" ");
-        let currentBar : string = "";
-        let phrases : Array<String> = new Array<string>();
+        let word_array: Array<string> = lyrics.phrase.split(" ");
+        let currentBar: string = "";
+        let phrases: Array<String> = new Array<string>();
         for (var i = 0; i < word_array.length; i++) {
             if (word_array[i].trim() === "") {
                 continue;
@@ -20,19 +20,39 @@ export class LyricFormatter implements PipeTransform {
                 currentBar = "";
             }
             currentBar += word_array[i] + " ";
-            
+
         }
         phrases.push(currentBar);
-        return {bars : phrases, phrase_data: lyrics}
+        console.log(lyrics);
+        return { bars: phrases, phrase_data: lyrics }
     }
 
-    shouldBreak(word : string): boolean {
-        let words : string[] = ["i'm", "i", "i'll"];
+    shouldBreak(word: string): boolean {
+        let words: string[] = ["i'm", "i", "i'll"];
         for (var i = 0; i < words.length; i++) {
             if (words[i] === word.toLowerCase()) {
                 return false;
             }
         }
         return true;
+    }
+}
+
+@Pipe({ name: 'highlight' })
+export class HighlightPipe implements PipeTransform {
+    transform(text: string[], search): string {
+
+        if (text.toString().includes(search)) {
+            let parts: string[] = text.toString().split(search);
+            let final_string: string = "";
+            parts.forEach((elem, index) => {
+                final_string += elem;
+                if (index != parts.length - 1) {
+                    final_string += "<span>" + search + "</span>";
+                }
+            });
+            return final_string.toString();
+        }
+        return "";
     }
 }

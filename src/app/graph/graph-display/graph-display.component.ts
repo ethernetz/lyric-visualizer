@@ -179,7 +179,7 @@ export class GraphDisplayComponent implements OnInit {
             .attr("class", "test-shadow")
             .attr("x", function (d) { return matrixScale(parseInt(d.x)) })
             .attr("y", function (d) { return matrixScale(parseInt(d.y)) })
-            .attr("style", "stroke: transparent; stroke-width:15px")
+            .attr("style", "stroke: transparent; stroke-width:13px")
             .attr("class", "exampleGlow")
             .style("fill", (d) => {
                 return this.idToColor(d.id);
