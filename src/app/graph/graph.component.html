@@ -1,8 +1,11 @@
 <div id="graph">
-    <app-graph-display id="graph-display" *ngIf="songObs | async as song else loading" [lyrics]="song.lyrics">
+    <app-graph-display id="graph-display" *ngIf="songObs | async as song else loadingOrError" [lyrics]="song.lyrics">
     </app-graph-display>
-    <ng-template #loading>
-        <app-loading *ngIf="!(songErrorObs | async)"></app-loading>
-        <div id="errorMessage" *ngIf="songErrorObs | async">Sorry! We don't know the lyrics to that song...</div>
+    <ng-template #loadingOrError>
+        <div id="errorMessage" *ngIf="songErrorObs | async else loading">Sorry! We don't know the lyrics to
+            that song...</div>
+        <ng-template #loading>
+            <app-loading></app-loading>
+        </ng-template>
     </ng-template>
 </div>

@@ -1,24 +1,51 @@
+$button-base: #6e8efb;
+$button-hover: #a777e3;
+
 img {
-    display: block;
-    margin: 0 auto;
-    padding-top: 20vh;
-    height: 30vh;
+  display: block;
+  margin: 0 auto;
+  padding-top: 20vh;
+  height: 30vh;
 }
 
-.progress-container{
-    width: 50vw;
-    display: block;
-    margin: 0 auto;
-    height: 10px;
-    border-radius: 5px;
-    background: #111111;
+.progress-container {
+  width: 50vw;
+  display: block;
+  margin: 0 auto;
+  height: 10px;
+  border-radius: 5px;
+  background: #111111;
 }
 
-.progress{
-    width: 0%;
-    height: 10px;
-    border-radius: 5px;
-    margin-top: 100px;
-    background: 
-      linear-gradient(to right, #ffedbc, #ed4264 ) fixed,
+.progress {
+  width: 0%;
+  height: 10px;
+  border-radius: 5px;
+  margin-top: 100px;
+  background: linear-gradient(to right, #ffedbc, #ed4264) fixed;
+}
+
+.continue {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.continue button {
+  padding: 1.2em 2em;
+  text-decoration: none;
+  text-align: center;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  background: $button-base;
+  transition: background-color 0.25s ease-out; /* vendorless fallback */
+}
+
+.continue button:hover {
+  cursor: pointer;
+  background: $button-hover;
+}
+
+.continue button:disabled {
+  background: grey;
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { Subscription, Observable, Subject } from 'rxjs';
 
 import { Song } from '../models/song.model';
@@ -15,13 +15,17 @@ export class GraphComponent {
     private songObs: Observable<Song>;
     private songErrorObs: Observable<boolean>;
 
-    constructor(public songService: SongService){}
+    constructor(public songService: SongService, private cdr: ChangeDetectorRef){}
 
 
     ngOnInit() {
         this.songObs = this.songService.getSongObservable();
         this.songErrorObs = this.songService.getSongErrorObservable()
     }
+
+    ngAfterViewInit() {
+        this.cdr.detectChanges();
+      }
 
     
 
