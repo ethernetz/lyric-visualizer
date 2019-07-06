@@ -16,9 +16,11 @@ import { InfoComponent } from './info/info.component'
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { RouterModule, Routes } from '@angular/router';
 import { LoadingComponent } from './loading/loading.component';
+import { TutorialComponent } from './tutorial/tutorial.component';
 
 const routes: Routes = [
   {path: '', component: MainComponent},
+  {path: 'intro', component: TutorialComponent},
   {path: 'search/:artist/:song', component: MainComponent}
 ]
 
@@ -31,7 +33,8 @@ const routes: Routes = [
     SidebarComponent,
     SearchComponent,
     InfoComponent,
-    LoadingComponent
+    LoadingComponent,
+    TutorialComponent
   ],
   imports: [
     BrowserModule,
