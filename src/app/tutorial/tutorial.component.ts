@@ -11,15 +11,24 @@ import { map, takeWhile } from 'rxjs/operators';
 
 export class TutorialComponent implements OnInit{
 
-    
+    public canContinue = false;
+
     ngOnInit(){
+
         const progressBar = document.getElementById('progress');
         const durationInSeconds = 15
         const duration = (durationInSeconds*100)/2;
         const progress = interval(20).pipe(
             map(progress => progress/duration),
-            takeWhile(ratio => ratio < 1)
-        ).subscribe(ratio => progressBar.style.width = ratio*100 + '%')
+            takeWhile(ratio => ratio <= 1)
+        ).subscribe(
+            ratio => {progressBar.style.width = ratio*100 + '%'},
+            error => {},
+            () => {
+                console.log('done!')
+                this.canContinue = true
+            }
+            )
 
 
         localStorage.setItem('new_user', 'false');
