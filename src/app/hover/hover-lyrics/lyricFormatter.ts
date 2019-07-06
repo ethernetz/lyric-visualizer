@@ -48,7 +48,7 @@ export class HighlightPipe implements PipeTransform {
             parts.forEach((elem, index) => {
                 final_string += elem;
                 if (index != parts.length - 1) {
-                    final_string += "<span>" + search + "</span>";
+                    final_string += "<span class='highlight'>" + search + "</span>";
                 }
             });
             return final_string.toString();
