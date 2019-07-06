@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Song } from '../models/song.model';
 import { SongOption } from '../models/song-option.model'
+import { encode, decode } from '../info/LZW'
 
 
 @Injectable({providedIn: 'root'})
@@ -38,6 +39,10 @@ export class SongService{
             lyricsAsJSON => {
                 this.song = this.toSong(selectedSong, lyricsAsJSON);
                 this.songUpdated.next(this.song);
+                let encoded_string = encode(this.song.lyrics);
+                let decoded_string = decode(encoded_string);
+                console.log("Repetition:")
+                console.log(1 - (encoded_string.length/decoded_string.length));
             },
             error => {
                 this.songErrorSubject.next(true)

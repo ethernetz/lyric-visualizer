@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 
 import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -18,6 +17,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoadingComponent } from './loading/loading.component';
 import { HoverComponent } from './hover/hover.component';
 import { TutorialComponent } from './tutorial/tutorial.component';
+import { LyricFormatter } from './hover/lyricFormatter';
 
 const routes: Routes = [
   {path: '', component: MainComponent},
@@ -36,7 +36,8 @@ const routes: Routes = [
     InfoComponent,
     LoadingComponent,
     HoverComponent,
-    TutorialComponent
+    TutorialComponent,
+    LyricFormatter
   ],
   imports: [
     BrowserModule,

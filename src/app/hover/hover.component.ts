@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { SongService } from '../services/song.service';
+import { LyricFormatter } from './lyricFormatter';
 
 @Component({
     selector: 'app-hover',

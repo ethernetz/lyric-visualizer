@@ -38,9 +38,7 @@ export class GraphDisplayComponent implements OnInit {
         }));
 
         //Analyze data recieved
-        console.log(lyrics)
         let lyrics_array: string[] = lyrics.replace(/\s/g, " ").replace(/[^a-zA-Z0-9' ]/g, "").split(/\s+/);
-        console.log(lyrics_array);
         var matrix_data = this.buildMatrix(lyrics_array);
         let matrix: Link[] = matrix_data.matrix;
         let lyrics_map: Map<string, number> = matrix_data.map;
