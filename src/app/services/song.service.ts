@@ -80,7 +80,7 @@ export class SongService {
 
     //Lookup song from searchbar and get songInfo
     getAutocomplete(terms: String) {
-        this.http.get('http://ws.audioscrobbler.com/2.0/?method=track.search&track=' + terms + '&limit=5&api_key=49386e5f87311a82ff3de554345a8053&format=json')
+        this.http.get('https://ws.audioscrobbler.com/2.0/?method=track.search&track=' + terms + '&limit=5&api_key=49386e5f87311a82ff3de554345a8053&format=json')
             .subscribe((songOptionsAsJSON: any) => {
                 this.songOptions = this.toSongOptions(songOptionsAsJSON);
                 this.songOptionsUpdated.next(this.songOptions);
