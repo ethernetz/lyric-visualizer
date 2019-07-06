@@ -6,9 +6,6 @@ export class LyricFormatter implements PipeTransform {
         let word_array : Array<string> = lyrics.split(" ");
         let currentBar : string = "";
         let phrases : Array<String> = new Array<string>();
-        if (word_array.length > 30) {
-            return ""
-        }
         for (var i = 0; i < word_array.length; i++) {
             if (word_array[i].trim() === "") {
                 continue;

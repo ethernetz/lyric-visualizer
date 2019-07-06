@@ -170,8 +170,10 @@ export class GraphDisplayComponent implements OnInit {
             .style("fill", (d) => {
                 return this.idToColor(d.id);
             }).on("mouseover", (d) => {
-                let phrase : string = this.getDiagonalPhrase(d.x + "," + d.y, point_map)
-                this.songService.updateLyrics(phrase);
+                let phrase : string = this.getDiagonalPhrase(d.x + "," + d.y, point_map);
+                if (d.x !== d.y) {
+                    this.songService.updateLyrics(phrase);
+                }
                 return null;
             })
 
