@@ -1,3 +1,4 @@
-<div *ngIf="hoveredLyrics | async | lyricFormatter as hover_data" class="lyric-container">
-    <div *ngFor="let bar of hover_data.bars" [innerHTML]="bar | highlight : hover_data.phrase_data.highlighted" class="lyrics">{{ bar }}</div>
+<div id="test" *ngIf="hoveredLyrics | async | lyricFormatter as hover_data">
+    <app-hover-data [phrase_repetitions]="hover_data.phrase_data.repetitions"></app-hover-data>
+    <app-hover-lyrics id="hover-lyrics" [hover_data]="hover_data"></app-hover-lyrics>
 </div>

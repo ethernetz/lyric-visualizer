@@ -15,9 +15,11 @@ import { InfoComponent } from './info/info.component'
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { RouterModule, Routes } from '@angular/router';
 import { LoadingComponent } from './loading/loading.component';
-import { HoverComponent } from './hover/hover.component';
+import { HoverLyricsComponent } from './hover/hover-lyrics/hover-lyrics.component';
 import { TutorialComponent } from './tutorial/tutorial.component';
-import { LyricFormatter, HighlightPipe } from './hover/lyricFormatter';
+import { HoverComponent } from './hover/hover.component';
+import { HoverDataComponent } from './hover/hover-data/hover-data.component';
+import { LyricFormatter, HighlightPipe } from './hover/hover-lyrics/lyricFormatter';
 
 const routes: Routes = [
   {path: '', component: MainComponent},
@@ -36,6 +38,8 @@ const routes: Routes = [
     InfoComponent,
     LoadingComponent,
     HoverComponent,
+    HoverLyricsComponent,
+    HoverDataComponent,
     TutorialComponent,
     LyricFormatter,
     HighlightPipe

@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { PhraseData } from '../models/phrase-data.model';
+import { PhraseData } from '../../models/phrase-data.model';
 import * as _ from 'lodash';
 
 @Pipe({ name: "lyricFormatter" })
@@ -48,7 +48,7 @@ export class HighlightPipe implements PipeTransform {
             parts.forEach((elem, index) => {
                 final_string += elem;
                 if (index != parts.length - 1) {
-                    final_string += "<span>" + search + "</span>";
+                    final_string += "<span class='highlight'>" + search + "</span>";
                 }
             });
             return final_string.toString();

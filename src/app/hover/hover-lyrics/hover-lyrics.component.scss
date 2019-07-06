@@ -1,0 +1,12 @@
+@import "../../../../src/variables.scss";
+
+.lyric-container{
+    width: 100%; 
+}
+.lyrics {
+    font-family: $secondary_font;
+    color: $off_white;
+    font-size: 20px;
+    padding-bottom: 10px;
+    padding-right: 20px;
+}
