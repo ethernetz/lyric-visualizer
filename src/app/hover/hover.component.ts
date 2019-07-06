@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { SongService } from '../services/song.service';
-import { PhraseData } from '../models/phrase-data.model'
+import { SongService } from '../../app/services/song.service';
+import { PhraseData } from '../../app/models/phrase-data.model'
 
 @Component({
     selector: 'app-hover',

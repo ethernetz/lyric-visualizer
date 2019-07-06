@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { PhraseData } from '../models/phrase-data.model';
+import { PhraseData } from '../../models/phrase-data.model';
 import * as _ from 'lodash';
 
 @Pipe({name: "lyricFormatter"})
