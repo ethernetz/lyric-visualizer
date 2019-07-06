@@ -20,12 +20,13 @@ export class InfoComponent implements OnInit{
     public selectedSongAlbumArtUrl: string = null;
     public selectedSongAlbumArtUrlUpdated: Subscription;
     public defaultAlbumArtUrl: string = "https://ia802905.us.archive.org/29/items/mbid-5e11c177-cc2c-4986-9332-26d7ef1285c2/mbid-5e11c177-cc2c-4986-9332-26d7ef1285c2-20937834816.jpg";
+
+    public hoveredLyrics: Observable<string>;
     
     ngOnInit(){
         this.songInfoObs = this.songService.getSongInfoObservable();
         this.songAlbumUrlObs = this.songService.getSongAlbumUrlObservable();
-    
-        
+        this.hoveredLyrics = this.songService.getLyricsObservable();
     }
 
 }

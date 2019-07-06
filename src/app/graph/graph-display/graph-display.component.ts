@@ -3,6 +3,7 @@ import { Link } from '../../models/link.model';
 import * as d3 from 'd3';
 import * as _ from 'lodash';
 import { Frequency } from 'src/app/models/frequency.model';
+import { SongService } from '../../services/song.service'
 
 @Component({
     selector: 'app-graph-display',
@@ -10,6 +11,8 @@ import { Frequency } from 'src/app/models/frequency.model';
 })
 
 export class GraphDisplayComponent implements OnInit {
+
+    constructor(private songService: SongService) {}
 
     @Input() lyrics: string;
     private sorted_lyrics_map;
@@ -30,12 +33,14 @@ export class GraphDisplayComponent implements OnInit {
         var initialWidth = parseFloat(graphStyle.width);
         var height = "100%";
         var width = "100%";
-        var svg = d3.select("#graph-display").append("svg").attr("width", width).attr("height", height)            .call(d3.zoom().on("zoom", function () {
+        var svg = d3.select("#graph-display").append("svg").attr("width", width).attr("height", height).call(d3.zoom().scaleExtent([1, 2]).on("zoom", function () {
             svg.attr("transform", d3.event.transform)
         }));
 
         //Analyze data recieved
-        let lyrics_array: string[] = lyrics.split(/\s+/);
+        console.log(lyrics)
+        let lyrics_array: string[] = lyrics.replace(/\s/g, " ").replace(/[^a-zA-Z0-9' ]/g, "").split(/\s+/);
+        console.log(lyrics_array);
         var matrix_data = this.buildMatrix(lyrics_array);
         let matrix: Link[] = matrix_data.matrix;
         let lyrics_map: Map<string, number> = matrix_data.map;
@@ -167,11 +172,9 @@ export class GraphDisplayComponent implements OnInit {
             .style("fill", (d) => {
                 return this.idToColor(d.id);
             }).on("mouseover", (d) => {
-                if (d.x === d.y) {
-                    return tooltip.style("visibility", "visible").text(d.id);
-                }
-
-                return tooltip.style("visibility", "visible").text(this.getDiagonalPhrase(d.x + "," + d.y, point_map));
+                let phrase : string = this.getDiagonalPhrase(d.x + "," + d.y, point_map)
+                this.songService.updateLyrics(phrase);
+                return null;
             })
 
             // we move tooltip during of "mousemove"

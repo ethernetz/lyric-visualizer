@@ -21,6 +21,8 @@ export class SongService{
     private albumArtUrl: string;
     private albumArtUrlUpdated = new BehaviorSubject<string>(null);
 
+    private lyricsHover = new Subject<string>();
+
 
     constructor(private http: HttpClient) {
     }
@@ -51,6 +53,13 @@ export class SongService{
         return this.songErrorSubject.asObservable();
     }
 
+    getLyricsObservable() {
+        return this.lyricsHover.asObservable();
+    }
+
+    updateLyrics(phrase : string) {
+        this.lyricsHover.next(phrase);
+    }
     
     getAutocomplete(terms: String) {
         this.http.get('http://ws.audioscrobbler.com/2.0/?method=track.search&track=' + terms + '&limit=5&api_key=49386e5f87311a82ff3de554345a8053&format=json')
@@ -59,11 +68,11 @@ export class SongService{
             this.songOptionsUpdated.next(this.songOptions);
         });
     }
+
     getAutocompleteListener() {
         return this.songOptionsUpdated.asObservable();
     }
 
-    
     updateAlbumArtUrl(selectedSong: SongOption){
         this.albumArtUrlUpdated.next(null);
         this.http.jsonp('https://api.deezer.com/search?output=jsonp&callback=JSONP_CALLBACK&limit=1&q=' + selectedSong.title + " " + selectedSong.artist, 'JSONP_CALLBACK')
@@ -81,7 +90,8 @@ export class SongService{
     updateSongInfo(selectedSong: SongOption){
         this.songInfo = selectedSong;
         this.songInfoUpdated.next(this.songInfo);
-    }    
+    }   
+
     getSongInfoObservable(){
         return this.songInfoUpdated.asObservable();
     }

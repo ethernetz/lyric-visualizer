@@ -16,6 +16,7 @@ import { InfoComponent } from './info/info.component'
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { RouterModule, Routes } from '@angular/router';
 import { LoadingComponent } from './loading/loading.component';
+import { HoverComponent } from './hover/hover.component';
 import { TutorialComponent } from './tutorial/tutorial.component';
 
 const routes: Routes = [
@@ -34,6 +35,7 @@ const routes: Routes = [
     SearchComponent,
     InfoComponent,
     LoadingComponent,
+    HoverComponent,
     TutorialComponent
   ],
   imports: [
