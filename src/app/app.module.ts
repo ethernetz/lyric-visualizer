@@ -17,9 +17,11 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { RouterModule, Routes } from '@angular/router';
 import { LoadingComponent } from './loading/loading.component';
 import { HoverComponent } from './hover/hover.component';
+import { TutorialComponent } from './tutorial/tutorial.component';
 
 const routes: Routes = [
   {path: '', component: MainComponent},
+  {path: 'intro', component: TutorialComponent},
   {path: 'search/:artist/:song', component: MainComponent}
 ]
 
@@ -33,7 +35,8 @@ const routes: Routes = [
     SearchComponent,
     InfoComponent,
     LoadingComponent,
-    HoverComponent
+    HoverComponent,
+    TutorialComponent
   ],
   imports: [
     BrowserModule,

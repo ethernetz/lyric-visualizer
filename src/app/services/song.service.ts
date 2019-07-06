@@ -30,16 +30,27 @@ export class SongService{
     getSong(selectedSong: SongOption) {
         this.songUpdated.next(null);
         this.updateSongInfo(selectedSong);
-        this.updateAlbumArtUrl(selectedSong)
+        this.updateAlbumArtUrl(selectedSong);
+        this.songErrorSubject.next(false);
         this.http
         .get('https://api.lyrics.ovh/v1/' + selectedSong.artist + '/' + selectedSong.title)
-        .subscribe((lyricsAsJSON) => {
-            this.song = this.toSong(selectedSong, lyricsAsJSON);
-            this.songUpdated.next(this.song);
-        });
+        .subscribe(
+            lyricsAsJSON => {
+                this.song = this.toSong(selectedSong, lyricsAsJSON);
+                this.songUpdated.next(this.song);
+            },
+            error => {
+                this.songErrorSubject.next(true)
+            }
+        );
     }
     getSongObservable() {
         return this.songUpdated.asObservable();
+    }
+    
+    public songErrorSubject = new Subject<boolean>();
+    getSongErrorObservable(){
+        return this.songErrorSubject.asObservable();
     }
 
     getLyricsObservable() {
