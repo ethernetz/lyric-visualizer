@@ -17,7 +17,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoadingComponent } from './loading/loading.component';
 import { HoverComponent } from './hover/hover.component';
 import { TutorialComponent } from './tutorial/tutorial.component';
-import { LyricFormatter } from './hover/lyricFormatter';
+import { LyricFormatter, HighlightPipe } from './hover/lyricFormatter';
 
 const routes: Routes = [
   {path: '', component: MainComponent},
@@ -37,7 +37,8 @@ const routes: Routes = [
     LoadingComponent,
     HoverComponent,
     TutorialComponent,
-    LyricFormatter
+    LyricFormatter,
+    HighlightPipe
   ],
   imports: [
     BrowserModule,

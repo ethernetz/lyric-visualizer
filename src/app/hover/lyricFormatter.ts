@@ -23,6 +23,7 @@ export class LyricFormatter implements PipeTransform {
             
         }
         phrases.push(currentBar);
+        console.log(lyrics);
         return {bars : phrases, phrase_data: lyrics}
     }
 
@@ -35,4 +36,27 @@ export class LyricFormatter implements PipeTransform {
         }
         return true;
     }
+}
+
+@Pipe({ name: 'highlight' })
+export class HighlightPipe implements PipeTransform {
+  transform(text: string[], search): string {
+      let bars : string = "";
+      text.forEach((elem) => {
+          bars += elem;
+      })
+      if (bars.toString().includes(search)) {
+          let parts : string[] = bars.toString().split(search);
+          console.log(parts);
+          let final_string : string = "";
+          parts.forEach((elem, index) => {
+            final_string += elem;
+            if (index != parts.length - 1) {
+                final_string +=  "<mark>" + search + "</mark>";
+            }
+          });
+          return final_string.toString();
+      }
+      return "";
+  }
 }
