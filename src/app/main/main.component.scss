@@ -1,20 +1,19 @@
 .main {
-    grid-area: main;
-    align-self: center;
-    margin: 0 auto;
-  }
+  grid-area: main;
+  align-self: center;
+  margin: 0 auto;
+}
 
 .sidebar {
-    grid-area: right;
-    width: 100%;
+  grid-area: right;
+  width: 100%;
 }
 
 .grid-container {
-    display: grid;
-    justify-items: center;
-    grid-template-columns: 2fr 1fr;
-    grid-template-areas:
-      'main right';
-    grid-column-gap: 30px;
-    padding-top: 5vh;
-  }
+  display: grid;
+  justify-items: center;
+  grid-template-columns: 2fr 1fr;
+  grid-template-areas: "main right";
+  grid-column-gap: 30px;
+  padding-top: 5vh;
+}

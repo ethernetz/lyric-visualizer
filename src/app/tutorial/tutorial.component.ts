@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 
 
 export class TutorialComponent implements OnInit {
-    constructor(private router: Router){}
+    constructor(private router: Router) { }
 
     public canContinue = false;
 
@@ -32,7 +32,7 @@ export class TutorialComponent implements OnInit {
         )
     }
 
-    continue(){
+    continue() {
         localStorage.setItem('new_user', 'false');
         this.router.navigate([''])
     }

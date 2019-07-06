@@ -9,7 +9,7 @@ import { PhraseData } from '../../models/phrase-data.model'
     styleUrls: ['./hover-lyrics.component.scss']
 })
 
-export class HoverLyricsComponent implements OnInit { 
+export class HoverLyricsComponent implements OnInit {
 
     @Input() hover_data;
 

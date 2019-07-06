@@ -11,8 +11,8 @@ import { SongStatistics } from '../models/song-statistics.model';
     styleUrls: ['./info.component.scss']
 })
 
-export class InfoComponent implements OnInit{
-    constructor(private songService: SongService){}
+export class InfoComponent implements OnInit {
+    constructor(private songService: SongService) { }
 
     public selectedSongSub: Subscription;
 
@@ -25,8 +25,8 @@ export class InfoComponent implements OnInit{
     public defaultAlbumArtUrl: string = "https://ia802905.us.archive.org/29/items/mbid-5e11c177-cc2c-4986-9332-26d7ef1285c2/mbid-5e11c177-cc2c-4986-9332-26d7ef1285c2-20937834816.jpg";
 
     public hoveredLyrics: Observable<PhraseData>;
-    
-    ngOnInit(){
+
+    ngOnInit() {
         this.songInfoObs = this.songService.getSongInfoObservable();
         this.songAlbumUrlObs = this.songService.getSongAlbumUrlObservable();
         this.songStatisticsObs = this.songService.getSongStatisticsObservable();

@@ -1,10 +1,10 @@
 <div id="info-div">
-        <div *ngIf="songAlbumUrlObs | async as selectedSongAlbumArtUrl else loading">
-            <img src={{selectedSongAlbumArtUrl}} alt="">
-        </div>
-        <ng-template #loading>
-            <app-loading></app-loading>
-        </ng-template>
+    <div *ngIf="songAlbumUrlObs | async as selectedSongAlbumArtUrl else loading">
+        <img src={{selectedSongAlbumArtUrl}} alt="">
+    </div>
+    <ng-template #loading>
+        <app-loading></app-loading>
+    </ng-template>
 
     <div class="song-info" *ngIf="songInfoObs | async as song">
         <div class="song_title">{{song.title}}</div>

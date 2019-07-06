@@ -22,9 +22,9 @@ import { HoverDataComponent } from './hover/hover-data/hover-data.component';
 import { LyricFormatter, HighlightPipe } from './hover/hover-lyrics/lyricFormatter';
 
 const routes: Routes = [
-  {path: '', component: MainComponent},
-  {path: 'intro', component: TutorialComponent},
-  {path: 'search/:artist/:song', component: MainComponent}
+  { path: '', component: MainComponent },
+  { path: 'intro', component: TutorialComponent },
+  { path: 'search/:artist/:song', component: MainComponent }
 ]
 
 @NgModule({

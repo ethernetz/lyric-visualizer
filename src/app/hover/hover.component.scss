@@ -1,45 +1,42 @@
 @import "../../../src/variables.scss";
 
-:host{
-    flex-grow: 1;
-    overflow: auto;
-    display: flex;
-    flex-direction: column;
+:host {
+  flex-grow: 1;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
 }
 
-div{
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    overflow: auto;
+div {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  overflow: auto;
 }
 
-app-hover-lyrics{
-    flex-grow: 1;
-    overflow: auto;
-    max-width: 302.5px;
-    margin-top: 20px;
+app-hover-lyrics {
+  flex-grow: 1;
+  overflow: auto;
+  max-width: 302.5px;
+  margin-top: 20px;
 }
 
-::-webkit-scrollbar-track
-{
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.1);
-	border-radius: 10px;
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
 }
 
-::-webkit-scrollbar
-{
-	width: 5px;
+::-webkit-scrollbar {
+  width: 5px;
 }
-::-webkit-scrollbar-thumb
-{
-	border-radius: 2.5px;
-    background-color: #FFF568;
+::-webkit-scrollbar-thumb {
+  border-radius: 2.5px;
+  background-color: #fff568;
 }
 .lyrics {
-    font-family: $secondary_font;
-    color: $off_white;
-    font-size: 20px;
-    padding-bottom: 10px;
-    padding-right: 20px;
+  font-family: $secondary_font;
+  color: $off_white;
+  font-size: 20px;
+  padding-bottom: 10px;
+  padding-right: 20px;
 }

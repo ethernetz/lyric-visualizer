@@ -2,7 +2,8 @@
     <div class="input-wrapper" data-text="">
         <input type="text" list="song_options" formControlName="searchbox" placeholder="Search">
         <datalist id="song_options">
-            <option *ngFor="let song of songOptions" (click)="fetchSong($event, song)" value="{{song.title}} - by {{song.artist}}">
+            <option *ngFor="let song of songOptions" (click)="fetchSong($event, song)"
+                value="{{song.title}} - by {{song.artist}}">
         </datalist>
     </div>
 </form>

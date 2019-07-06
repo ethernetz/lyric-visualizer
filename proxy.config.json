@@ -1,7 +1,7 @@
-{ 
-    "/apiv1.asmx/*": {
-        "target": "http://api.chartlyrics.com",
-        "secure": false,
-        "logLevel": "debug"
-    }
+{
+  "/apiv1.asmx/*": {
+    "target": "http://api.chartlyrics.com",
+    "secure": false,
+    "logLevel": "debug"
+  }
 }

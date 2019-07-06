@@ -1,3 +1,3 @@
-export interface SongStatistics{
+export interface SongStatistics {
     repetition_percentage: number;
 }

@@ -9,7 +9,7 @@ import { PhraseData } from '../../models/phrase-data.model'
     styleUrls: ['./hover-data.component.scss']
 })
 
-export class HoverDataComponent implements OnInit { 
+export class HoverDataComponent implements OnInit {
 
     @Input() phrase_repetitions;
 

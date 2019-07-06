@@ -1,44 +1,47 @@
 @import "../../../src/variables.scss";
 
 input {
-    color: #ddd;
-    border: none;
-    padding: 0;
-    border-radius: 0;
-    outline: none;
-    width: auto;
-    font-size: 24px;
-    line-height: 1.5em;
-    font-family: $primary_font;
-    font-weight: 400;
-    border-bottom: 2px solid #FFF568;
-    background-color: transparent;
-  }
+  color: #ddd;
+  border: none;
+  padding: 0;
+  border-radius: 0;
+  outline: none;
+  width: auto;
+  font-size: 24px;
+  line-height: 1.5em;
+  font-family: $primary_font;
+  font-weight: 400;
+  border-bottom: 2px solid #fff568;
+  background-color: transparent;
+}
 
-  ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-    color: white;
-    opacity: 1; /* Firefox */
-  }
-  
-  :-ms-input-placeholder { /* Internet Explorer 10-11 */
-    color: white;
-  }
-  
-  ::-ms-input-placeholder { /* Microsoft Edge */
-    color: white;
-  }
+::placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: white;
+  opacity: 1; /* Firefox */
+}
+
+:-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  color: white;
+}
+
+::-ms-input-placeholder {
+  /* Microsoft Edge */
+  color: white;
+}
 .input-wrapper {
   margin-left: auto;
 }
 
-.autocomplete{
+.autocomplete {
   color: white;
   font-size: 18px;
-  font-family: 'Poppins', Roboto, Arial, sans-serif;
+  font-family: "Poppins", Roboto, Arial, sans-serif;
   background-color: #404040;
   position: absolute;
   z-index: 5;
 }
-.autocomplete_option{
+.autocomplete_option {
   padding: 15px 10px 0 5px;
 }

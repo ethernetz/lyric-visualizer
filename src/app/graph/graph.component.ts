@@ -15,7 +15,7 @@ export class GraphComponent {
     public songObs: Observable<Song>;
     private songErrorObs: Observable<boolean>;
 
-    constructor(public songService: SongService, private cdr: ChangeDetectorRef){}
+    constructor(public songService: SongService, private cdr: ChangeDetectorRef) { }
 
 
     ngOnInit() {
@@ -25,8 +25,8 @@ export class GraphComponent {
 
     ngAfterViewInit() {
         this.cdr.detectChanges();
-      }
+    }
 
-    
+
 
 }

@@ -15,7 +15,7 @@ export class GraphDisplayComponent implements OnInit {
 
     public lyric_data: SongLyricsData;
 
-    constructor(private songService: SongService) {}
+    constructor(private songService: SongService) { }
 
     @Input() lyrics: string;
     private sorted_lyrics_map;
@@ -94,13 +94,13 @@ export class GraphDisplayComponent implements OnInit {
             if (index + length >= this.lyric_data.lyrics_array.length) {
                 return;
             }
-            let string_comp : string = this.lyric_data.lyrics_array
-            .slice(index, index + length)
-            .join(" ").toLowerCase();
+            let string_comp: string = this.lyric_data.lyrics_array
+                .slice(index, index + length)
+                .join(" ").toLowerCase();
             if (string_comp === phrase.toLowerCase()) {
                 repetitions++;
             }
-             
+
         });
         return repetitions;
     }
@@ -173,7 +173,7 @@ export class GraphDisplayComponent implements OnInit {
             .data(this.lyric_data.lyric_matrix)
             .enter()
             .append("rect")
-            .attr("id", function (d) { return d.id})
+            .attr("id", function (d) { return d.id })
             .attr("width", matrixScale(1))
             .attr("height", matrixScale(1))
             .attr("class", "test-shadow")
@@ -184,9 +184,9 @@ export class GraphDisplayComponent implements OnInit {
             .style("fill", (d) => {
                 return this.idToColor(d.id);
             }).on("mouseover", (d, i, n) => {
-                let phrase : string = this.getDiagonalPhrase(d.x + "," + d.y);
+                let phrase: string = this.getDiagonalPhrase(d.x + "," + d.y);
                 let repetitions = this.getRepetitions(phrase);
-                
+
                 if (d.x !== d.y) {
                     this.songService.updateLyrics(new PhraseData(phrase, repetitions, d.id));
                 }

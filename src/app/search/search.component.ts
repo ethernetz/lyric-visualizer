@@ -12,26 +12,26 @@ import { debounceTime } from 'rxjs/operators';
     styleUrls: ['./search.component.scss']
 })
 
-export class SearchComponent implements OnInit{
+export class SearchComponent implements OnInit {
 
     myForm: FormGroup;
-    
-    
+
+
     public songOptions: SongOption[] = [];
     private songOptionsSub: Subscription;
 
     constructor(private fb: FormBuilder, private songService: SongService, private route: ActivatedRoute, private router: Router) {
-        
+
     }
 
-    ngOnInit(){
+    ngOnInit() {
 
-        if (this.router.url.startsWith('/search/')){
-            this.route.params.subscribe( params => {
+        if (this.router.url.startsWith('/search/')) {
+            this.route.params.subscribe(params => {
                 this.songService.songLookup(params.song, params.artist).subscribe(song => {
                     this.fetchSong(song);
                 });
-            })            
+            })
         } else {
             let starterSong: SongOption = {
                 title: "Radioactive",
@@ -42,10 +42,10 @@ export class SearchComponent implements OnInit{
 
 
         this.songOptionsSub = this.songService
-        .getAutocompleteListener()
-        .subscribe((songOptions: SongOption[]) => {
-            this.songOptions = songOptions;
-        })
+            .getAutocompleteListener()
+            .subscribe((songOptions: SongOption[]) => {
+                this.songOptions = songOptions;
+            })
 
         this.myForm = this.fb.group({
             searchbox: ['', [Validators.required, Validators.min(1)]]
@@ -54,9 +54,9 @@ export class SearchComponent implements OnInit{
         this.searchbox.valueChanges.pipe(
             debounceTime(300),
         ).subscribe(searchterm => {
-            if(this.searchbox.status == 'VALID'){
-                for(var i = 0; i < this.songOptions.length; i++){
-                    if(this.searchbox.value == this.songOptions[i].title + " - by " + this.songOptions[i].artist){
+            if (this.searchbox.status == 'VALID') {
+                for (var i = 0; i < this.songOptions.length; i++) {
+                    if (this.searchbox.value == this.songOptions[i].title + " - by " + this.songOptions[i].artist) {
                         let artistParam = encodeURIComponent(this.songOptions[i].artist.trim())
                         let trackParam = encodeURIComponent(this.songOptions[i].title.trim())
                         this.router.navigate(['/search', artistParam, trackParam])
@@ -71,7 +71,7 @@ export class SearchComponent implements OnInit{
 
     get searchbox() {
         return this.myForm.get('searchbox');
-       } 
+    }
 
     search(searchterm: string) {
         this.songService.getAutocomplete(searchterm);
@@ -84,5 +84,5 @@ export class SearchComponent implements OnInit{
     fetchSong(song) {
         this.songService.getSong(song);
     }
-    
+
 }   

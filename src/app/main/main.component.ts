@@ -7,4 +7,4 @@ import { Component } from '@angular/core';
     styleUrls: ['./main.component.scss']
 })
 
-export class MainComponent{}
+export class MainComponent { }

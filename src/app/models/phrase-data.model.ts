@@ -3,5 +3,5 @@ export class PhraseData {
         public phrase: string,
         public repetitions: number,
         public highlighted: string
-    ) {}
+    ) { }
 }

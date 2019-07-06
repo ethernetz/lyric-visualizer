@@ -1,36 +1,37 @@
 @import "../../../src/variables.scss";
 
-.song_title, .artist {
-    color: white;
-    font-family: $primary-font;
+.song_title,
+.artist {
+  color: white;
+  font-family: $primary-font;
 }
 .song_title {
-    font-size: 28px;
-    font-weight: 700;
-    padding-top: 20px;
+  font-size: 28px;
+  font-weight: 700;
+  padding-top: 20px;
 }
 .artist {
-    font-size: 22px;
-    font-weight: 400;
+  font-size: 22px;
+  font-weight: 400;
 }
 
-.song-statistics{
-    padding-top: 30px
+.song-statistics {
+  padding-top: 30px;
 }
 
 .repetition {
-    font-family: $secondary_font;
-    color: $off_white;
-    font-size: 30px;
+  font-family: $secondary_font;
+  color: $off_white;
+  font-size: 30px;
 }
 
-
-img, app-loading{
-    height: 150px;
-    width: 150px;
-    padding-top: 30px;
+img,
+app-loading {
+  height: 150px;
+  width: 150px;
+  padding-top: 30px;
 }
 
-app-loading{
+app-loading {
   padding-left: 25px;
 }

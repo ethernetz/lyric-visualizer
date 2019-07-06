@@ -10,8 +10,8 @@ import { PhraseData } from '../../app/models/phrase-data.model'
 })
 
 export class HoverComponent implements OnInit {
-    
-    constructor(private songService: SongService) {}
+
+    constructor(private songService: SongService) { }
 
     public hoveredLyrics: Observable<PhraseData>;
 
