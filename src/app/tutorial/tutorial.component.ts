@@ -17,7 +17,7 @@ export class TutorialComponent implements OnInit {
 
     ngOnInit() {
         const progressBar = document.getElementById('progress');
-        const durationInSeconds = 15
+        const durationInSeconds = 3
         const duration = (durationInSeconds * 100) / 2;
         const progress = interval(20).pipe(
             map(progress => progress / duration),

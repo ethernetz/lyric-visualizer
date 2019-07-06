@@ -1,5 +1,6 @@
-$button-base: #6e8efb;
-$button-hover: #a777e3;
+@import "../../../src/variables.scss";
+$button-base: #2193b0;
+$button-hover: #6dd5ed;
 
 img {
   display: block;
@@ -22,7 +23,7 @@ img {
   height: 10px;
   border-radius: 5px;
   margin-top: 100px;
-  background: linear-gradient(to right, #ffedbc, #ed4264) fixed;
+  background: linear-gradient(to right, $button-base, $button-hover) fixed;
 }
 
 .continue {
@@ -33,12 +34,15 @@ img {
 .continue button {
   padding: 1.2em 2em;
   text-decoration: none;
+  font-family: $primary-font;
+  font-weight: bold;
   text-align: center;
   border: none;
   border-radius: 4px;
   color: white;
   background: $button-base;
-  transition: background-color 0.25s ease-out; /* vendorless fallback */
+  opacity: 1;
+  transition: background-color 0.25s, opacity 0.25s ease-out; /* vendorless fallback */
 }
 
 .continue button:hover {
@@ -47,5 +51,7 @@ img {
 }
 
 .continue button:disabled {
-  background: grey;
+  color: #dcdcdc;
+  background: #a6a6a6;
+  opacity: 0.5;
 }
