@@ -41,7 +41,6 @@ export class LyricFormatter implements PipeTransform {
 @Pipe({ name: 'highlight' })
 export class HighlightPipe implements PipeTransform {
     transform(text: string[], search): string {
-
         if (text.toString().includes(search)) {
             let parts: string[] = text.toString().split(search);
             let final_string: string = "";
@@ -53,6 +52,6 @@ export class HighlightPipe implements PipeTransform {
             });
             return final_string.toString();
         }
-        return "";
+        return "<span class='unhighlight'>" + text + "</span>";
     }
 }
