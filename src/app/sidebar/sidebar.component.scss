@@ -1,0 +1,29 @@
+:host{
+    display: flex;
+    flex-direction: column;
+    height: 90vh;
+}
+
+app-hover{
+    flex-grow: 1;
+    overflow: auto;
+    max-width: 302.5px;
+    margin-top: 20px;
+}
+
+#app-hover::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.1);
+	border-radius: 10px;
+}
+
+#app-hover::-webkit-scrollbar
+{
+	width: 5px;
+}
+
+#app-hover::-webkit-scrollbar-thumb
+{
+	border-radius: 2.5px;
+    background-color: #FFF568;
+}

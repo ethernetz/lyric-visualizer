@@ -1,13 +1,12 @@
 @import "../../../src/variables.scss";
 
 .lyric-container{
-    max-width: 100%; 
-    width: 302.5px;
-    padding-top: 15px;
+    width: 100%; 
 }
 .lyrics {
     font-family: $secondary_font;
     color: $off_white;
     font-size: 20px;
-    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 20px;
 }
