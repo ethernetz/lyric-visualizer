@@ -1,5 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { PhraseData } from '../models/phrase-data.model';
+import * as _ from 'lodash';
 
 @Pipe({name: "lyricFormatter"})
 export class LyricFormatter implements PipeTransform {
@@ -14,7 +15,7 @@ export class LyricFormatter implements PipeTransform {
             if (word_array[i].trim() === "") {
                 continue;
             }
-            if (word_array[i][0].toUpperCase() === word_array[i][0] && word_array[i].length >= 4) {
+            if (word_array[i][0].toUpperCase() === word_array[i][0] && this.shouldBreak(word_array[i])) {
                 phrases.push(currentBar);
                 currentBar = "";
             }
@@ -23,5 +24,15 @@ export class LyricFormatter implements PipeTransform {
         }
         phrases.push(currentBar);
         return {bars : phrases, phrase_data: lyrics}
+    }
+
+    shouldBreak(word : string): boolean {
+        let words : string[] = ["i'm", "i", "i'll"];
+        for (var i = 0; i < words.length; i++) {
+            if (words[i] === word.toLowerCase()) {
+                return false;
+            }
+        }
+        return true;
     }
 }
