@@ -92,7 +92,7 @@ export class SongService {
 
     //Lookup song from url parameters and get songInfo
     songLookup(track: string, artist: string) {
-        return this.http.get('http://ws.audioscrobbler.com/2.0/?method=track.search&track=' + track + '&artist=' + artist + '&limit=1&api_key=49386e5f87311a82ff3de554345a8053&format=json')
+        return this.http.get('https://ws.audioscrobbler.com/2.0/?method=track.search&track=' + track + '&artist=' + artist + '&limit=1&api_key=49386e5f87311a82ff3de554345a8053&format=json')
             .map(res => {
                 return this.toSongOptions(res)[0];
             })
