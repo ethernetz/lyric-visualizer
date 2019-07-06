@@ -1,9 +1,13 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { PhraseData } from '../models/phrase-data.model';
 
 @Pipe({name: "lyricFormatter"})
 export class LyricFormatter implements PipeTransform {
-    transform(lyrics : string) {
-        let word_array : Array<string> = lyrics.split(" ");
+    transform(lyrics : PhraseData) {
+        if (!lyrics) {
+            return false;
+        }
+        let word_array : Array<string> = lyrics.phrase.split(" ");
         let currentBar : string = "";
         let phrases : Array<String> = new Array<string>();
         for (var i = 0; i < word_array.length; i++) {
@@ -18,6 +22,6 @@ export class LyricFormatter implements PipeTransform {
             
         }
         phrases.push(currentBar);
-        return phrases
+        return {bars : phrases, phrase_data: lyrics}
     }
 }

@@ -1,7 +1,6 @@
 
 export function encode(lyrics: string) {
     lyrics = lyrics.replace(/\s/g, " ").replace(/[^a-zA-Z0-9' ]/g, "");
-    console.log(lyrics);
     let dict: Map<string, string> = new Map<string, string>();
     let data = (lyrics + "").split("");
     let output: Array<number> = new Array<number>();

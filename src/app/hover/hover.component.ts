@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { SongService } from '../services/song.service';
-import { LyricFormatter } from './lyricFormatter';
+import { PhraseData } from '../models/phrase-data.model'
 
 @Component({
     selector: 'app-hover',
@@ -13,7 +13,7 @@ export class HoverComponent implements OnInit {
     
     constructor(private songService: SongService) {}
 
-    public hoveredLyrics: Observable<string>;
+    public hoveredLyrics: Observable<PhraseData>;
 
     ngOnInit() {
         this.hoveredLyrics = this.songService.getLyricsObservable();

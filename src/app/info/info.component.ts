@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SongService } from '../services/song.service';
 import { Subscription, Subject, Observable } from 'rxjs';
 import { SongOption } from '../models/song-option.model';
+import { PhraseData } from '../models/phrase-data.model';
 
 @Component({
     selector: 'app-info',
@@ -21,7 +22,7 @@ export class InfoComponent implements OnInit{
     public selectedSongAlbumArtUrlUpdated: Subscription;
     public defaultAlbumArtUrl: string = "https://ia802905.us.archive.org/29/items/mbid-5e11c177-cc2c-4986-9332-26d7ef1285c2/mbid-5e11c177-cc2c-4986-9332-26d7ef1285c2-20937834816.jpg";
 
-    public hoveredLyrics: Observable<string>;
+    public hoveredLyrics: Observable<PhraseData>;
     
     ngOnInit(){
         this.songInfoObs = this.songService.getSongInfoObservable();

@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Song } from '../models/song.model';
 import { SongOption } from '../models/song-option.model'
+import { PhraseData } from '../models/phrase-data.model'
 import { encode, decode } from '../info/LZW'
 
 
@@ -22,7 +23,7 @@ export class SongService{
     private albumArtUrl: string;
     private albumArtUrlUpdated = new BehaviorSubject<string>(null);
 
-    private lyricsHover = new Subject<string>();
+    private lyricsHover = new Subject<PhraseData>();
 
 
     constructor(private http: HttpClient) {
@@ -41,8 +42,6 @@ export class SongService{
                 this.songUpdated.next(this.song);
                 let encoded_string = encode(this.song.lyrics);
                 let decoded_string = decode(encoded_string);
-                console.log("Repetition:")
-                console.log(1 - (encoded_string.length/decoded_string.length));
             },
             error => {
                 this.songErrorSubject.next(true)
@@ -62,7 +61,7 @@ export class SongService{
         return this.lyricsHover.asObservable();
     }
 
-    updateLyrics(phrase : string) {
+    updateLyrics(phrase : PhraseData) {
         this.lyricsHover.next(phrase);
     }
     
@@ -110,9 +109,21 @@ export class SongService{
 
 
     toSong(selectedSong: SongOption, lyricsAsJSON): Song {
+        let lyricsFromResponse: string = lyricsAsJSON.lyrics;
+        const formatted_lyrics = lyricsFromResponse
+            .replace(/\s/g, " ")
+            .replace(/[^a-zA-Z0-9' ]/g, "")
+            .split(" ")
+            .reduce((filtered, word) => {
+                if (word !== "") {
+                    filtered.push(word.trim());
+                }
+                return filtered;
+            }, [])
+            .join(" ")
         let song: Song = {
             metadata: selectedSong,
-            lyrics: lyricsAsJSON.lyrics
+            lyrics: formatted_lyrics
         }
         return song;
     }   

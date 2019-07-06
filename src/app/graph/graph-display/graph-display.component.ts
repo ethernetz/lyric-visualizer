@@ -2,8 +2,9 @@ import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { Link } from '../../models/link.model';
 import * as d3 from 'd3';
 import * as _ from 'lodash';
-import { Frequency } from 'src/app/models/frequency.model';
-import { SongService } from '../../services/song.service'
+import { SongLyricsData } from '../../models/song-lyrics.model';
+import { PhraseData } from '../../models/phrase-data.model';
+import { SongService } from '../../services/song.service';
 
 @Component({
     selector: 'app-graph-display',
@@ -11,6 +12,8 @@ import { SongService } from '../../services/song.service'
 })
 
 export class GraphDisplayComponent implements OnInit {
+
+    public lyric_data: SongLyricsData;
 
     constructor(private songService: SongService) {}
 
@@ -38,7 +41,7 @@ export class GraphDisplayComponent implements OnInit {
         }));
 
         //Analyze data recieved
-        let lyrics_array: string[] = lyrics.replace(/\s/g, " ").replace(/[^a-zA-Z0-9' ]/g, "").split(/\s+/);
+        let lyrics_array: string[] = lyrics.split(/\s+/);
         var matrix_data = this.buildMatrix(lyrics_array);
         let matrix: Link[] = matrix_data.matrix;
         let lyrics_map: Map<string, number> = matrix_data.map;
@@ -50,29 +53,20 @@ export class GraphDisplayComponent implements OnInit {
             return (point_map.has(upper_point) || point_map.has(lower_point));
         });
 
+        this.lyric_data = new SongLyricsData(lyrics, lyrics_array, result, lyrics_map, point_map);
+
 
         //Create color filter
         this.createFilter(svg);
-        this.drawRectangles(lyrics_array.length, initialWidth, result, svg, point_map);
+        this.drawRectangles(initialWidth);
     }
 
-    sortMap(mapToSort: Map<string, number>): Array<Frequency> {
-        let frequency_array: Array<Frequency> = new Array();
-        mapToSort.forEach((value, key) => {
-            frequency_array.push(new Frequency(key, value));
-        });
-        frequency_array.sort((a: Frequency, b: Frequency) => {
-            return a.frequency - b.frequency;
-        });
-        return frequency_array;
-    }
-
-    getDiagonalPhrase(point: string, point_map: Map<string, string>): string {
+    getDiagonalPhrase(point: string): string {
         let phrase: Array<string> = new Array();
         let x: number = parseInt(point.split(",")[0]);
         let y: number = parseInt(point.split(",")[1]);
-        while (point_map.has(x + "," + y)) {
-            phrase.push(point_map.get(x + "," + y));
+        while (this.lyric_data.lyric_match_map.has(x + "," + y)) {
+            phrase.push(this.lyric_data.lyric_match_map.get(x + "," + y));
             x--;
             y--;
         }
@@ -84,13 +78,31 @@ export class GraphDisplayComponent implements OnInit {
         }
         x = parseInt(point.split(",")[0]) + 1;
         y = parseInt(point.split(",")[1]) + 1;
-        while (point_map.has(x + "," + y)) {
-            phrase_string += point_map.get(x + "," + y);
+        while (this.lyric_data.lyric_match_map.has(x + "," + y)) {
+            phrase_string += this.lyric_data.lyric_match_map.get(x + "," + y);
             phrase_string += " ";
             x++;
             y++;
         }
-        return phrase_string;
+        return phrase_string.trim();
+    }
+
+    getRepetitions(phrase: string): number {
+        let length = phrase.split(" ").length;
+        let repetitions: number = 0;
+        this.lyric_data.lyrics_array.forEach((word, index) => {
+            if (index + length >= this.lyric_data.lyrics_array.length) {
+                return;
+            }
+            let string_comp : string = this.lyric_data.lyrics_array
+            .slice(index, index + length)
+            .join(" ").toLowerCase();
+            if (string_comp === phrase.toLowerCase()) {
+                repetitions++;
+            }
+             
+        });
+        return repetitions;
     }
 
     buildMatrix(lyrics: string[]): any {
@@ -149,16 +161,16 @@ export class GraphDisplayComponent implements OnInit {
             .attr("in", "SourceGraphic");
     }
 
-    drawRectangles(lyrics_array_length: number, initialWidth: number, result: Link[], svg: any, point_map: Map<string, string>) {
+    drawRectangles(initialWidth: number) {
         var tooltip = d3.select("#graph")
             .append("div")
             .attr('class', 'tooltip');
-        let matrixScale = d3.scaleLinear().domain([0, lyrics_array_length]).range([0, initialWidth])
+        let matrixScale = d3.scaleLinear().domain([0, this.lyric_data.lyrics_array.length]).range([0, initialWidth])
         var selection = d3.select("g")
             .append("g")
             .attr("id", "adjacencyG")
             .selectAll("rect")
-            .data(result)
+            .data(this.lyric_data.lyric_matrix)
             .enter()
             .append("rect")
             .attr("width", matrixScale(1))
@@ -170,9 +182,11 @@ export class GraphDisplayComponent implements OnInit {
             .style("fill", (d) => {
                 return this.idToColor(d.id);
             }).on("mouseover", (d) => {
-                let phrase : string = this.getDiagonalPhrase(d.x + "," + d.y, point_map);
+                let phrase : string = this.getDiagonalPhrase(d.x + "," + d.y);
+                let repetitions = this.getRepetitions(phrase);
+                
                 if (d.x !== d.y) {
-                    this.songService.updateLyrics(phrase);
+                    this.songService.updateLyrics(new PhraseData(phrase, repetitions, d.id));
                 }
                 return null;
             })
@@ -208,6 +222,4 @@ export class GraphDisplayComponent implements OnInit {
         })
         return color ? color : "#FAFE09";
     }
-
-
 }
