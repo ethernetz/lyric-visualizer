@@ -17,7 +17,7 @@ export class SearchComponent implements OnInit{
     myForm: FormGroup;
     
     
-    private songOptions: SongOption[] = [];
+    public songOptions: SongOption[] = [];
     private songOptionsSub: Subscription;
 
     constructor(private fb: FormBuilder, private songService: SongService, private route: ActivatedRoute, private router: Router) {

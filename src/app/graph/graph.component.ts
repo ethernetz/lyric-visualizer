@@ -12,7 +12,7 @@ import { SongService } from '../services/song.service';
 
 export class GraphComponent {
 
-    private songObs: Observable<Song>;
+    public songObs: Observable<Song>;
     private songErrorObs: Observable<boolean>;
 
     constructor(public songService: SongService, private cdr: ChangeDetectorRef){}
