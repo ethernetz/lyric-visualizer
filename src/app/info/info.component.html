@@ -10,4 +10,7 @@
         <div class="song_title">{{song.title}}</div>
         <div class="artist">{{song.artist}}</div>
     </div>
+    <div class="song-statistics" *ngIf="songStatisticsObs | async as statistics">
+        <div class="repetition">{{statistics.repetition_percentage }}% repetitive</div>
+    </div>
 </div>
