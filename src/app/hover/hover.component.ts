@@ -16,6 +16,6 @@ export class HoverComponent implements OnInit {
     public hoveredLyrics: Observable<PhraseData>;
 
     ngOnInit() {
-        this.hoveredLyrics = this.songService.getLyricsObservable();
+        this.hoveredLyrics = this.songService.getHoveredLyricsObservable();
     }
 }

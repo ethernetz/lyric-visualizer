@@ -1,3 +1,5 @@
+@import "../../../src/variables.scss";
+
 input {
     color: #ddd;
     border: none;
@@ -7,7 +9,7 @@ input {
     width: auto;
     font-size: 24px;
     line-height: 1.5em;
-    font-family: 'Poppins', Roboto, Arial, sans-serif;
+    font-family: $primary_font;
     font-weight: 400;
     border-bottom: 2px solid #FFF568;
     background-color: transparent;

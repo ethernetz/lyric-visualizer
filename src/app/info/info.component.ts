@@ -3,6 +3,7 @@ import { SongService } from '../services/song.service';
 import { Subscription, Subject, Observable } from 'rxjs';
 import { SongOption } from '../models/song-option.model';
 import { PhraseData } from '../models/phrase-data.model';
+import { SongStatistics } from '../models/song-statistics.model';
 
 @Component({
     selector: 'app-info',
@@ -17,6 +18,7 @@ export class InfoComponent implements OnInit{
 
     public songInfoObs: Observable<SongOption>;
     public songAlbumUrlObs: Observable<string>;
+    public songStatisticsObs: Observable<SongStatistics>
 
     public selectedSongAlbumArtUrl: string = null;
     public selectedSongAlbumArtUrlUpdated: Subscription;
@@ -27,7 +29,8 @@ export class InfoComponent implements OnInit{
     ngOnInit(){
         this.songInfoObs = this.songService.getSongInfoObservable();
         this.songAlbumUrlObs = this.songService.getSongAlbumUrlObservable();
-        this.hoveredLyrics = this.songService.getLyricsObservable();
+        this.songStatisticsObs = this.songService.getSongStatisticsObservable();
+        this.hoveredLyrics = this.songService.getHoveredLyricsObservable();
     }
 
 }
