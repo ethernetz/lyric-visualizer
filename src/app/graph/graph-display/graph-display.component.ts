@@ -173,15 +173,17 @@ export class GraphDisplayComponent implements OnInit {
             .data(this.lyric_data.lyric_matrix)
             .enter()
             .append("rect")
+            .attr("id", function (d) { return d.id})
             .attr("width", matrixScale(1))
             .attr("height", matrixScale(1))
             .attr("class", "test-shadow")
             .attr("x", function (d) { return matrixScale(parseInt(d.x)) })
             .attr("y", function (d) { return matrixScale(parseInt(d.y)) })
+            .attr("style", "stroke: transparent; stroke-width:15px")
             .attr("class", "exampleGlow")
             .style("fill", (d) => {
                 return this.idToColor(d.id);
-            }).on("mouseover", (d) => {
+            }).on("mouseover", (d, i, n) => {
                 let phrase : string = this.getDiagonalPhrase(d.x + "," + d.y);
                 let repetitions = this.getRepetitions(phrase);
                 
@@ -203,7 +205,7 @@ export class GraphDisplayComponent implements OnInit {
 
             // we hide our tooltip on "mouseout"
 
-            .on("mouseout", function () {
+            .on("mouseout", (d, i, n) => {
                 return tooltip.style("visibility", "hidden");
             });
 
