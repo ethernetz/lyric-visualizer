@@ -30,7 +30,9 @@ export class GraphDisplayComponent implements OnInit {
         var initialWidth = parseFloat(graphStyle.width);
         var height = "100%";
         var width = "100%";
-        var svg = d3.select("#graph-display").append("svg").attr("width", width).attr("height", height);
+        var svg = d3.select("#graph-display").append("svg").attr("width", width).attr("height", height)            .call(d3.zoom().on("zoom", function () {
+            svg.attr("transform", d3.event.transform)
+        }));
 
         //Analyze data recieved
         let lyrics_array: string[] = lyrics.split(/\s+/);
@@ -73,7 +75,6 @@ export class GraphDisplayComponent implements OnInit {
         }
 
         let phrase_string: string = "";
-        console.log(phrase);
         for (let i = phrase.length - 1; i >= 0; i--) {
             phrase_string += phrase[i];
             phrase_string += " ";
@@ -152,9 +153,6 @@ export class GraphDisplayComponent implements OnInit {
         let matrixScale = d3.scaleLinear().domain([0, lyrics_array_length]).range([0, initialWidth])
         var selection = d3.select("g")
             .append("g")
-            .call(d3.zoom().on("zoom", function () {
-                svg.attr("transform", d3.event.transform)
-            }))
             .attr("id", "adjacencyG")
             .selectAll("rect")
             .data(result)
