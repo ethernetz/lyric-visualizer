@@ -9,7 +9,7 @@ import {Router} from "@angular/router"
 export class AppComponent implements OnInit{
   constructor(private router: Router) { }
   ngOnInit(){
-    if(localStorage.getItem('new_user') == 'true'){
+    if(localStorage.getItem('new_user') != 'false'){
       this.router.navigate(['/intro'])
     }
   }
