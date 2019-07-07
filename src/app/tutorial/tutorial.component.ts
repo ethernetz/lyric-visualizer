@@ -17,7 +17,7 @@ export class TutorialComponent implements OnInit {
 
     ngOnInit() {
         const progressBar = document.getElementById('progress');
-        const durationInSeconds = 3
+        const durationInSeconds = 10
         const duration = (durationInSeconds * 100) / 2;
         const progress = interval(20).pipe(
             map(progress => progress / duration),
@@ -26,7 +26,6 @@ export class TutorialComponent implements OnInit {
             ratio => { progressBar.style.width = ratio * 100 + '%' },
             error => { },
             () => {
-                console.log('done!')
                 this.canContinue = true
             }
         )

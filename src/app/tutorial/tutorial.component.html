@@ -1,10 +1,11 @@
-<img src="../../assets/intro-gif.gif" title="this slowpoke moves" />
-
-<div class="progress-container">
+<video autoplay>
+    <source src="../../assets/intro-video.mp4">
+</video>
+<div class="progress-container" [ngClass]="{'fade-out': canContinue}">
     <div class="progress" id="progress"></div>
 </div>
 
 <div class="continue">
-    <button (click)="continue()" [disabled]="!canContinue">Continue</button>
+    <button (click)="continue()" [disabled]="!canContinue">Take Me</button>
     <!-- <button  [disabled]="!false">Continue</button> -->
 </div>
