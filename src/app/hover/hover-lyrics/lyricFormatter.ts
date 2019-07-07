@@ -23,7 +23,6 @@ export class LyricFormatter implements PipeTransform {
 
         }
         phrases.push(currentBar);
-        console.log(lyrics);
         return { bars: phrases, phrase_data: lyrics }
     }
 
@@ -40,18 +39,10 @@ export class LyricFormatter implements PipeTransform {
 
 @Pipe({ name: 'highlight' })
 export class HighlightPipe implements PipeTransform {
-    transform(text: string[], search): string {
-        if (text.toString().includes(search)) {
-            let parts: string[] = text.toString().split(search);
-            let final_string: string = "";
-            parts.forEach((elem, index) => {
-                final_string += elem;
-                if (index != parts.length - 1) {
-                    final_string += "<span class='highlight'>" + search + "</span>";
-                }
-            });
-            return final_string.toString();
-        }
-        return "<span class='unhighlight'>" + text + "</span>";
+    transform(value: string, args : string): string {
+        if (!args) {return value;}
+        return value.replace(new RegExp("\\b" + args.trim().toString() + "\\b", "gi"), match => {
+            return "<span class='highlight'>" + match + "</span>";
+        });
     }
 }
