@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 
 import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
@@ -51,6 +52,8 @@ const routes: Routes = [
     HttpClientModule,
     HttpClientJsonpModule,
     ReactiveFormsModule,
+    BrowserModule,
+    BrowserAnimationsModule,
     RouterModule.forRoot(routes),
     FontAwesomeModule
   ],
