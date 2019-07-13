@@ -39,7 +39,7 @@ $button-hover: #FFF683;
 }
 
 
-.v1 {
+.v1, .v2 {
   color: white;
   font-family: $primary-font;
   font-weight: 400;
@@ -49,12 +49,7 @@ $button-hover: #FFF683;
 
 }
 
-.v1 .highlighted-container{
-  display: block;
-
-}
-
-.v1 .highlight{
+.v1 .highlight, .v2 .highlight{
   height: 7vw;
   position: absolute;
   z-index: -10;
@@ -64,11 +59,16 @@ $button-hover: #FFF683;
 }
 
 
-.v1 .highlighted-container{
+.v1 .highlighted-container, .v2 .highlighted-container{
   font-family: $primary-font;
   font-weight: 700;
   font-size: 4.5vw;
   margin: 5vw auto;
-  // color: #181718;
+  color: #181718;
   display: inline-block;
+  display: block;
+}
+
+.v2 .highlighted-container{
+  transform: translateY(-10vh)
 }

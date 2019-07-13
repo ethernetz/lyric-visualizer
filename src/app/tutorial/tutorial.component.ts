@@ -20,13 +20,13 @@ export class TutorialComponent {
     @ViewChild('continueButton', { static: false }) continueButton: ElementRef;
     continueObs: Observable<any>;
 
-    public first_highlight: string = "closed"
-    public first_text_highlight: string = "grey"
-    first_fadeDropCompletion(){
-        this.first_highlight = "open"
-        this.first_text_highlight = "black"
+    
+    buttonActive: boolean = false;
+    animEnd(x){
+        if(x.fromState != "void"){
+            this.buttonActive = true;
+        }
     }
-
 
 
     ngAfterViewInit() {
@@ -41,5 +41,18 @@ export class TutorialComponent {
 
     }
 
+    public first_highlight: string = "closed"
+    public first_text_highlight: string = "grey"
+    first_fadeDropCompletion(){
+        this.first_highlight = "open"
+        this.first_text_highlight = "black"
+    }
+
+    public showHowTo: boolean = true
+    second_raiseHighlightDone(){
+        this.showHowTo = false;
+        this.first_highlight = 'closed';
+        this.first_text_highlight = 'grey';
+    }
 
 }

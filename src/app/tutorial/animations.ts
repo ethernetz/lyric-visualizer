@@ -29,6 +29,12 @@ export const animations = [
                 (animate('750ms ease-out')),
                 { delay: 100 }
             )
+        ]),
+        transition('open => closed', [
+            query(':self',
+                (animate('750ms ease-out')),
+                { delay: 100 }
+            )
         ])
     ]),
 
@@ -44,6 +50,23 @@ export const animations = [
                 (animate('100ms ease-out')),
                 { delay: 750 }
             )
+        ]),
+        transition('black => grey', [
+            query(':self',
+                (animate('100ms ease-out')),
+                { delay: 100 }
+            )
+        ])
+    ]),
+
+    trigger('raiseHighlight', [
+        transition('* => *', [
+            query(":self", style({
+                transform: 'translateY(0)',   
+            })),
+            query(":self", animate('500ms ease-out', style({
+                transform: 'translateY(-10vh)',   
+            })))
         ])
     ])
 ]
