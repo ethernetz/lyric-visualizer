@@ -14,19 +14,20 @@ import { SongService } from '../../services/song.service';
 export class GraphDisplayComponent implements OnInit {
 
     public lyric_data: SongLyricsData;
+    public points: Array<string>;
 
     constructor(private songService: SongService) { }
 
     @Input() lyrics: string;
-    private sorted_lyrics_map;
+    private sorted_count_array: Array<number>;
 
     ngOnInit() {
-        d3.select("svg").remove();
+        d3.select("#remove").remove();
         this.graphViz(this.lyrics);
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        d3.select("svg").remove();
+        d3.select("#remove").remove();
         this.graphViz(changes.lyrics.currentValue);
     }
 
@@ -36,7 +37,7 @@ export class GraphDisplayComponent implements OnInit {
         var initialWidth = parseFloat(graphStyle.width);
         var height = "100%";
         var width = "100%";
-        var svg = d3.select("#graph-display").append("svg").attr("width", width).attr("height", height).call(d3.zoom().scaleExtent([1, 2]).on("zoom", function () {
+        var svg = d3.select("#graph-display").append("svg").attr("id", "remove").attr("width", width).attr("height", height).call(d3.zoom().scaleExtent([1, 2]).on("zoom", function () {
             svg.attr("transform", d3.event.transform)
         }));
 
@@ -45,7 +46,7 @@ export class GraphDisplayComponent implements OnInit {
         var matrix_data = this.buildMatrix(lyrics_array);
         let matrix: Link[] = matrix_data.matrix;
         let lyrics_map: Map<string, number> = matrix_data.map;
-        this.sorted_lyrics_map = new Map([...lyrics_map.entries()].sort((a, b) => b[1] - a[1]));
+        this.sorted_count_array = [...new Set(lyrics_map.values())].sort((a, b) => {return b - a});
         let point_map: Map<string, string> = matrix_data.point_map;
         const result: Link[] = matrix.filter((element) => {
             let upper_point = (parseInt(element.x) + 1) + "," + (parseInt(element.y) + 1);
@@ -54,18 +55,20 @@ export class GraphDisplayComponent implements OnInit {
         });
 
         this.lyric_data = new SongLyricsData(lyrics, lyrics_array, result, lyrics_map, point_map);
-
+        console.log(lyrics_map);
 
         //Create color filter
         this.createFilter(svg);
         this.drawRectangles(initialWidth);
     }
 
-    getDiagonalPhrase(point: string): string {
+    getDiagonalPhrase(point: string): any {
         let phrase: Array<string> = new Array();
+        let points: Array<string> = new Array();
         let x: number = parseInt(point.split(",")[0]);
         let y: number = parseInt(point.split(",")[1]);
         while (this.lyric_data.lyric_match_map.has(x + "," + y)) {
+            points.push("p" + x + "-" + y);
             phrase.push(this.lyric_data.lyric_match_map.get(x + "," + y));
             x--;
             y--;
@@ -79,12 +82,13 @@ export class GraphDisplayComponent implements OnInit {
         x = parseInt(point.split(",")[0]) + 1;
         y = parseInt(point.split(",")[1]) + 1;
         while (this.lyric_data.lyric_match_map.has(x + "," + y)) {
+            points.push("p" + x + "-" + y);
             phrase_string += this.lyric_data.lyric_match_map.get(x + "," + y);
             phrase_string += " ";
             x++;
             y++;
         }
-        return phrase_string.trim();
+        return { phrase: phrase_string.trim(), points: points };
     }
 
     getRepetitions(phrase: string): number {
@@ -134,12 +138,7 @@ export class GraphDisplayComponent implements OnInit {
 
     createFilter(svg) {
         let wrapper = svg.append("g");
-
-        //Container for the gradients
         var defs = wrapper.append("defs");
-
-        //Code taken from http://stackoverflow.com/questions/9630008/how-can-i-create-a-glow-around-a-rectangle-with-svg
-        //Filter for the outside glow
         var filter = defs.append("filter")
             .attr("id", "glow")
             .attr("width", "1000%")
@@ -173,55 +172,64 @@ export class GraphDisplayComponent implements OnInit {
             .data(this.lyric_data.lyric_matrix)
             .enter()
             .append("rect")
-            .attr("id", function (d) { return d.id })
+            .attr("id", function (d) { return "p" + d.x + "-" + d.y })
             .attr("width", matrixScale(1))
             .attr("height", matrixScale(1))
             .attr("class", "test-shadow")
             .attr("x", function (d) { return matrixScale(parseInt(d.x)) })
             .attr("y", function (d) { return matrixScale(parseInt(d.y)) })
-            .attr("style", "stroke: transparent; stroke-width:13px")
+            .attr("style", (d) => {
+                return "stroke: transparent; stroke-width:13px; fill:" + this.idToColor(this.lyric_data.lyric_frequency.get(d.id), this.sorted_count_array) +";";})
+                
             .attr("class", "exampleGlow")
-            .style("fill", (d) => {
-                return this.idToColor(d.id);
-            }).on("mouseover", (d, i, n) => {
-                let phrase: string = this.getDiagonalPhrase(d.x + "," + d.y);
+            .on("mouseover", (d, i, n) => {
+                let result = this.getDiagonalPhrase(d.x + "," + d.y)
+                let phrase: string = result.phrase;
                 let repetitions = this.getRepetitions(phrase);
-
+                this.points = result.points;
+                result.points.forEach((point) => {
+                    d3.select("#" + point).attr("style", (d) => {
+                        console.log(d);
+                        return "stroke: transparent; stroke-width:13px; cursor: crosshair; fill:red;"
+                    });
+                });
                 if (d.x !== d.y) {
                     this.songService.updateLyrics(new PhraseData(phrase, repetitions, d.id));
                 }
                 return null;
             })
-
-            // we move tooltip during of "mousemove"
-
             .on("mousemove", function () {
-
-                // eslint-disable-next-line no-restricted-globals
                 return tooltip.style("top", (d3.event.pageY - 50) + "px")
                     // eslint-disable-next-line no-restricted-globals
                     .style("left", d3.event.pageX + "px");
             })
-
-            // we hide our tooltip on "mouseout"
-
             .on("mouseout", (d, i, n) => {
+                this.points.forEach((point) => {
+                    let idToColor = this.idToColor;
+                    let lyric_to_count = this.lyric_data.lyric_frequency;
+                    let sorted_count = this.sorted_count_array;
+                    d3.select("#" + point).attr("style", "stroke: transparent; stroke-width:13px; cursor: pointer;")
+                    .attr("fill", (elem: any) => {
+                        return idToColor(lyric_to_count.get(elem.id), sorted_count);
+                    });
+                });
                 return tooltip.style("visibility", "hidden");
             });
 
         d3.selectAll(".exampleGlow").style("filter", "url(#glow)");
     }
 
-    idToColor(id: string): string {
-        let i = 0;
-        let color: string = null;
-        this.sorted_lyrics_map.forEach((value: number, key: string) => {
-            if (key == id && i < 3) {
-                let color_array: Array<string> = ["#FF00FF", "#01F4FF", "#0CD8AB", "#FF8704"]
-                color = color_array[i];
+    idToColor(count : number, distribution : Array<number>) : string {
+        // console.log(count);
+        let colors : Array<string> = ["#FF00FF", "#01F4FF", "#0CD8AB", "#FF8704", "#FAFE09"]
+        let bin_size = Math.floor(distribution.length / 5);
+        for (let i = 0, j = 0; i < distribution.length; i+= bin_size, j++) {
+            if (count >= distribution[i]) {
+                return j >= 5 ?  "#FAFE09" : colors[j];
             }
-            i++;
-        })
-        return color ? color : "#FAFE09";
+        }
+        return "#FAFE09";
     }
-}
+
+
+} 
