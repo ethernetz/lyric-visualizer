@@ -2,13 +2,17 @@ import { trigger, style, transition, animate, query, stagger, state } from '@ang
 
 export const animations = [
     trigger('fadeDrop', [
-        transition('* => *', [
+        transition(":enter", [
             query('span', style({ opacity: 0, position: 'relative', top: '-20px' })),
             query('span',
-                stagger('75ms', animate('100ms ease-out', style({
-                    opacity: 1,
-                    top: '0'
-                })))
+                stagger('125ms',
+                    animate('500ms cubic-bezier(0.23, 1, 0.32, 1)',
+                        style({
+                            opacity: 1,
+                            top: '0'
+                        })
+                    )
+                ), { delay: 100 }
             ),
         ]),
     ]),
@@ -26,13 +30,13 @@ export const animations = [
         })),
         transition('closed => open', [
             query(':self',
-                (animate('750ms ease-out')),
-                { delay: 100 }
+                (animate('750ms cubic-bezier(0.23, 1, 0.32, 1)')),
+                { delay: 300 }
             )
         ]),
         transition('open => closed', [
             query(':self',
-                (animate('750ms ease-out')),
+                (animate('750ms cubic-bezier(0.23, 1, 0.32, 1)')),
                 { delay: 100 }
             )
         ])
@@ -47,14 +51,14 @@ export const animations = [
         })),
         transition('grey => black', [
             query(':self',
-                (animate('100ms ease-out')),
+                (animate('100ms cubic-bezier(0.23, 1, 0.32, 1)')),
                 { delay: 750 }
             )
         ]),
         transition('black => grey', [
             query(':self',
-                (animate('100ms ease-out')),
-                { delay: 100 }
+                (animate('100ms cubic-bezier(0.23, 1, 0.32, 1)')),
+                { delay: 50 }
             )
         ])
     ]),
@@ -62,11 +66,11 @@ export const animations = [
     trigger('raiseHighlight', [
         transition('* => *', [
             query(":self", style({
-                transform: 'translateY(0)',   
+                transform: 'translateY(0)',
             })),
-            query(":self", animate('500ms ease-out', style({
-                transform: 'translateY(-10vh)',   
+            query(":self", animate('500ms cubic-bezier(0.23, 1, 0.32, 1)', style({
+                transform: 'translateY(-8.5vw)',
             })))
         ])
-    ])
+    ]),
 ]

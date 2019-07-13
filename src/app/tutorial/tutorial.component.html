@@ -1,5 +1,7 @@
 <div id="view" [ngSwitch]="progress">
+
     <div class="v1" *ngSwitchCase="0">
+        <!-- <div id="grid"></div> -->
         <div [@fadeDrop] (@fadeDrop.done)="first_fadeDropCompletion()">
             <span>How</span>
             <span> to</span>
@@ -18,24 +20,23 @@
 
 
     <div class="v2" *ngSwitchCase="1">
-        <div [ngStyle]="!showHowTo && {'opacity': '0'}">
-            <span>How</span>
-            <span> to</span>
-            <span> create</span>
-            <span> a</span>
-            <span> song's</span>
+        <div id="notGraph">
+            <div [ngStyle]="!showHowTo && {'opacity': '0'}">
+                <span>How</span>
+                <span> to</span>
+                <span> create</span>
+                <span> a</span>
+                <span> song's</span>
+            </div>
+            <div class="highlighted-container" [@raiseHighlight] (@raiseHighlight.done)="second_raiseHighlightDone()">
+                <span [@highlight]="first_highlight" class="highlight" (@highlight.done)="second_closeHighlightDone($event)"></span>
+                <span [@highlightText]="first_text_highlight">
+                    Lyrical Fingerprint
+                </span>
+
+            </div>
         </div>
-        <div class="highlighted-container" [@raiseHighlight] (@raiseHighlight.done)="second_raiseHighlightDone()">
-            <span [@highlight]="first_highlight" class="highlight"></span>
-            <span [@highlightText]="first_text_highlight">
-                Lyrical Fingerprint
-            </span>
-        </div>
-    
-    
-    
-    
-    
+        <div [@initGraphStyle]  id="grid"></div>
     </div>
 
 
