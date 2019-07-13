@@ -2,42 +2,17 @@
 $button-base: #FFF468;
 $button-hover: #FFF683;
 
-video {
-  display: block;
-  margin: 0 auto;
-  padding-top: 10vh;
-  height: 50vh;
+#view{
+  width: 80vw;
+  height: 70vh;
+  margin: 5vh auto;
 }
 
-.progress-container {
-  width: 720px;
-  max-width: 70vw;
-  display: block;
-  margin: 0 auto;
-  height: 5px;
-  border-radius: 5px;
-  background: #111111;
-}
-
-.fade-out{
-  opacity: 0;
-  transition: opacity 0.25s ease-out;
-}
-
-.progress {
-  width: 0%;
-  height: 5px;
-  border-radius: 5px;
-  margin-top: 25px;
-  background: linear-gradient(to right, $button-base, $button-hover) fixed;
-  opacity: 0.25;
-}
 
 .continue {
   text-align: center;
   margin-top: 50px;
 }
-
 .continue button {
   padding: 1.2em 2em;
   text-decoration: none;
@@ -61,4 +36,39 @@ video {
   color: #dcdcdc;
   background: #a6a6a6;
   opacity: 0.5;
+}
+
+
+.v1 {
+  color: white;
+  font-family: $primary-font;
+  font-weight: 400;
+  font-size: 3vw;
+  padding-top: 15vh;
+  text-align: center;
+
+}
+
+.v1 .highlighted-container{
+  display: block;
+
+}
+
+.v1 .highlight{
+  height: 7vw;
+  position: absolute;
+  z-index: -10;
+  background-color: #fff568;
+  padding: 5px 15px;
+  transform: translate(-15px, -5px);
+}
+
+
+.v1 .highlighted-container{
+  font-family: $primary-font;
+  font-weight: 700;
+  font-size: 4.5vw;
+  margin: 5vw auto;
+  // color: #181718;
+  display: inline-block;
 }

@@ -1,11 +1,33 @@
-<video autoplay [muted]="true">
-    <source src="../../assets/intro-video.mp4">
-</video>
-<div class="progress-container" [ngClass]="{'fade-out': canContinue}">
-    <div class="progress" id="progress"></div>
-</div>
+<div id="view" [ngSwitch]="progress">
+    <div class="v1" *ngSwitchCase="0">
+        <div [@fadeDrop] (@fadeDrop.done)="first_fadeDropCompletion()">
+            <span>How</span>
+            <span> to</span>
+            <span> create</span>
+            <span> a</span>
+            <span> song's</span>
+        </div>
 
+        <div class="highlighted-container">
+            <span [@highlight]="first_highlight" class="highlight"></span>
+            <span [@highlightText]="first_text_highlight"> 
+                Lyrical Fingerprint
+            </span> 
+        </div>
+    </div>
+    <div class="v2" *ngSwitchCase="1">
+        yo!
+    </div>
+    <div class="v3" *ngSwitchCase="2">
+        yo!
+    </div>
+    <div class="v4" *ngSwitchCase="3">
+        yo!
+    </div>
+    <div class="v5" *ngSwitchCase="4">
+        yo!
+    </div>
+</div>
 <div class="continue">
-    <button (click)="continue()" [disabled]="!canContinue">Take Me</button>
-    <!-- <button  [disabled]="!false">Continue</button> -->
+    <button class="continue" #continueButton> Continue! </button>
 </div>
