@@ -179,6 +179,9 @@ export class GraphDisplayComponent implements OnInit {
             .attr("x", function (d) { return matrixScale(parseInt(d.x)) })
             .attr("y", function (d) { return matrixScale(parseInt(d.y)) })
             .attr("style", (d) => {
+                if (d.x === d.y) {
+                    return "stroke: transparent; stroke-width:13px; fill:#525152";
+                }
                 return "stroke: transparent; stroke-width:13px; fill:" + this.idToColor(this.lyric_data.lyric_frequency.get(d.id), this.sorted_count_array) +";";})
                 
             .attr("class", "exampleGlow")
