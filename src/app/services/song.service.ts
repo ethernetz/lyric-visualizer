@@ -114,9 +114,10 @@ export class SongService {
     //Handle lyric api response
     toSong(selectedSong: SongOption, lyricsAsJSON): Song {
         let lyricsFromResponse: string = lyricsAsJSON.lyrics;
+        console.log(lyricsFromResponse)
         const formatted_lyrics = lyricsFromResponse
             .replace(/\s/g, " ")
-            .replace(/[^a-zA-Z0-9' ]/g, "")
+            .replace(/[^a-zA-Z0-9' ]/g, " ")
             .split(" ")
             .reduce((filtered, word) => {
                 if (word !== "") {
@@ -125,6 +126,7 @@ export class SongService {
                 return filtered;
             }, [])
             .join(" ")
+        console.log(formatted_lyrics);
         let song: Song = {
             metadata: selectedSong,
             lyrics: formatted_lyrics

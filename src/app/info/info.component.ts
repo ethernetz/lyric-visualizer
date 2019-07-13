@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SongService } from '../services/song.service';
 import { Subscription, Subject, Observable } from 'rxjs';
 import { SongOption } from '../models/song-option.model';
 import { PhraseData } from '../models/phrase-data.model';
 import { SongStatistics } from '../models/song-statistics.model';
+import data from './songs.json';
+import { faRandom, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
     selector: 'app-info',
@@ -12,10 +15,13 @@ import { SongStatistics } from '../models/song-statistics.model';
 })
 
 export class InfoComponent implements OnInit {
-    constructor(private songService: SongService) { }
+    constructor(private songService: SongService, private router: Router) { 
+        this.changeLabel = true;
+    }
 
+    public changeLabel : boolean;
     public selectedSongSub: Subscription;
-
+    public faRandom : IconDefinition = faRandom;
     public songInfoObs: Observable<SongOption>;
     public songAlbumUrlObs: Observable<string>;
     public songStatisticsObs: Observable<SongStatistics>
@@ -31,6 +37,13 @@ export class InfoComponent implements OnInit {
         this.songAlbumUrlObs = this.songService.getSongAlbumUrlObservable();
         this.songStatisticsObs = this.songService.getSongStatisticsObservable();
         this.hoveredLyrics = this.songService.getHoveredLyricsObservable();
+    }
+
+    fetchRandomSong() {
+        let track : string[] = data.songs[Math.floor(Math.random()*data.songs.length)].split(";");
+        let artistParam = encodeURIComponent(track[0])
+                        let trackParam = encodeURIComponent(track[1])
+                        this.router.navigate(['/search', artistParam, trackParam])
     }
 
 }

@@ -20,6 +20,7 @@ import { TutorialComponent } from './tutorial/tutorial.component';
 import { HoverComponent } from './hover/hover.component';
 import { HoverDataComponent } from './hover/hover-data/hover-data.component';
 import { LyricFormatter, HighlightPipe } from './hover/hover-lyrics/lyricFormatter';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
@@ -50,7 +51,8 @@ const routes: Routes = [
     HttpClientModule,
     HttpClientJsonpModule,
     ReactiveFormsModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    FontAwesomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
