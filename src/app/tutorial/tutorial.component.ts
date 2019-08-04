@@ -1,10 +1,9 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, fromEvent } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
 import { animations } from './animations'
-import * as d3 from 'd3';
-import { style } from 'd3';
+
 
 
 @Component({
@@ -16,15 +15,26 @@ import { style } from 'd3';
 
 
 export class TutorialComponent {
-    constructor(private router: Router) { }
+    constructor(private router: Router) { this.getScreenSize() }
+
+    screenHeight: number;
+    screenWidth: number;
+    public gridLeftMargin: number;
+    @HostListener('window:resize', ['$event'])
+    getScreenSize(event?) {
+        this.screenHeight = window.innerHeight;
+        this.screenWidth = window.innerWidth;
+        this.gridLeftMargin = 0.4 * this.screenWidth - 0.6 * this.screenHeight / 2
+    }
 
     public progress: number = 0;
-    public state = 'hide'
+    public buttonMessage: string = "Continue!"
     @ViewChild('continueButton', { static: false }) continueButton: ElementRef;
     continueObs: Observable<any>;
 
 
     buttonActive: boolean = false;
+    vidInProgress: boolean = false;
     animEnd(x) {
         if (x.fromState != "void" && x.toState != "void") {
             this.buttonActive = true;
@@ -34,11 +44,12 @@ export class TutorialComponent {
 
     ngAfterViewInit() {
         fromEvent(this.continueButton.nativeElement, 'click').pipe(
-            map(_ => { this.progress++ }),
+            tap(_ => { !this.vidInProgress ? this.progress++ : this.finishVid() }),
+            tap(_ => this.vidInProgress = this.progress == 1),
             tap(_ => {
                 this.buttonActive = false
             }),
-            take(5)
+            take(3)
         ).subscribe(
             data => { },
             error => { },
@@ -64,10 +75,44 @@ export class TutorialComponent {
 
 
     second_closeHighlightDone(x) {
-        if (x.fromState != "void" && x.toState != "void") {
-            document.getElementById('notGraph').style.display = "none";
+        if (!this.showHowTo) {
+            this.progress = 2
         }
-
     }
+
+    checkForPause(video) {
+        if (this.vidInProgress && video.currentTime >= 3.5) {
+            video.pause();
+            this.buttonActive = true;
+        }
+    }
+
+    finishVid() {
+        let video = document.getElementById('video') as HTMLVideoElement
+        this.vidInProgress = false
+        video.play()
+    }
+    public gridImgPosition = 'middle'
+    handleVidEnd() {
+        var vid = document.getElementById('video');
+        var imgReplacement = document.getElementById('imgReplacement');
+        vid.style.display = 'none';
+        imgReplacement.style.display = 'block';
+        this.progress++
+    }
+    public bulletStatus: string = 'hide'
+    imgMoveLeftdone() {
+        this.bulletStatus = 'show'
+    }
+
+    dropPointsDone() {
+        setTimeout(() => {
+            if (this.bulletStatus == 'show') {
+                this.buttonMessage = "I'm ready!"
+                this.buttonActive = true
+            }
+        }, 3000)
+    }
+
 
 }

@@ -29,29 +29,49 @@
                 <span> song's</span>
             </div>
             <div class="highlighted-container" [@raiseHighlight] (@raiseHighlight.done)="second_raiseHighlightDone()">
-                <span [@highlight]="first_highlight" class="highlight" (@highlight.done)="second_closeHighlightDone($event)"></span>
+                <span [@highlight]="first_highlight" class="highlight"
+                    (@highlight.done)="second_closeHighlightDone($event)"></span>
                 <span [@highlightText]="first_text_highlight">
                     Lyrical Fingerprint
                 </span>
-
             </div>
         </div>
-        <div [@initGraphStyle]  id="grid"></div>
     </div>
-
-
-
 
     <div class="v3" *ngSwitchCase="2">
-        yo!
+        <video id="video" autoplay [muted]="true" (timeupdate)="checkForPause($event.target)" (ended)="handleVidEnd()">
+            <source src="../../assets/full_grid.mp4">
+        </video>
+        <img id="imgReplacement" src="../../assets/end_grid.jpg" alt="">
     </div>
     <div class="v4" *ngSwitchCase="3">
-        yo!
-    </div>
-    <div class="v5" *ngSwitchCase="4">
-        yo!
+        <img [@moveLeft]="{value: 'filler', params: { gridLeftMargin: gridLeftMargin}}"
+            (@moveLeft.done)="imgMoveLeftdone()" src="../../assets/end_grid.jpg" alt="">
+        <ul [@dropPoints]="bulletStatus" (@dropPoints.done)="dropPointsDone()" class="bullets">
+            <li>
+                <div>
+                    This 8 x 8 matrix represents 8 words of the song "Barbie Girl"
+                </div>
+            </li>
+            <li>
+                <div>
+                    Each row and column of the matrix corresponds to a word in the lyrics
+                </div>
+            </li>
+            <li>
+                <div>
+                    A grid cell is filled in if its row has the same word as its column
+                </div>
+            </li>
+            <li>
+                <div>
+                    It's a beautiful way to look at repetitive patterns in song lyrics. We hope you have fun playing around. 
+                </div>
+            </li>
+            
+        </ul>
     </div>
 </div>
 <div class="continue">
-    <button class="continue" [disabled]="!buttonActive" #continueButton> Continue! </button>
+    <button class="continue" [disabled]="!buttonActive" #continueButton> {{buttonMessage}} </button>
 </div>

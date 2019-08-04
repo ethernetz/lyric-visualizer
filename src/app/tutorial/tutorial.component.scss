@@ -49,6 +49,26 @@ $button-hover: #FFF683;
 
 }
 
+.bullets {
+  color: white;
+  font-family: $primary-font;
+  font-weight: 400;
+  font-size: 20px;
+  width: calc(75vw - 60vh - 40px);
+  max-width: 50vh;
+  height: calc(60vh - 6em);
+  display: table
+}
+
+ul li {
+  display: table-row;
+}
+
+ul li div { /* assuming an anchor child.  Can be anything */
+  display: table-cell;
+  vertical-align: middle;
+}
+
 .v1 .highlight, .v2 .highlight{
   height: 7vw;
   position: absolute;
@@ -71,4 +91,25 @@ $button-hover: #FFF683;
 
 .v2 .highlighted-container{
   transform: translateY(-8.5vw)
+}
+
+.v3 video, .v3 img{
+  margin: 0 calc(40vw - 60vh/2);
+}
+
+.v3 video, .v3 img, .v4 img{
+  float: left;
+  width: 60vh;
+}
+
+#imgReplacement{
+  display: none
+}
+
+.v3, .v4{
+  padding-top: 10vh
+}
+
+.v4 img{
+  margin-left: 5vw
 }

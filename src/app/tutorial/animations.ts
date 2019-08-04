@@ -1,5 +1,7 @@
 import { trigger, style, transition, animate, query, stagger, state } from '@angular/animations';
 
+let gridLeftMargin = 300;
+
 export const animations = [
     trigger('fadeDrop', [
         transition(":enter", [
@@ -71,6 +73,37 @@ export const animations = [
             query(":self", animate('500ms cubic-bezier(0.23, 1, 0.32, 1)', style({
                 transform: 'translateY(-8.5vw)',
             })))
+        ])
+    ]),
+
+    trigger('moveLeft', [
+        transition(':enter', [
+            query(':self', style({ margin: '0 {{gridLeftMargin}}px' })),
+            query(':self',
+                animate('1000ms cubic-bezier(0.23, 1, 0.32, 1)', style({
+                    margin: '0 5vw',
+                })),
+                { delay: 500 },
+            )
+        ], { params: { gridLeftMargin: 0 } })
+    ]),
+
+    trigger('dropPoints', [
+        state('hide', style({
+            display: 'none'
+        })),
+        transition('hide => show', [
+            query('li', style({ opacity: 0})),
+            query(':self', style({ display: 'table'})),
+            query('li',
+                stagger('2700ms',
+                    animate('500ms cubic-bezier(0.23, 1, 0.32, 1)',
+                        style({
+                            opacity: 1,
+                        })
+                    )
+                ), { delay: 100 }
+            ),
         ])
     ]),
 ]
