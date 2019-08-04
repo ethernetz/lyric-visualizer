@@ -106,12 +106,13 @@ export class TutorialComponent {
     }
 
     dropPointsDone() {
-        setTimeout(() => {
-            if (this.bulletStatus == 'show') {
+        if (this.bulletStatus == 'show') {
+            setTimeout(() => {
                 this.buttonMessage = "I'm ready!"
                 this.buttonActive = true
-            }
-        }, 3000)
+            }, 3000)
+        }
+
     }
 
 
