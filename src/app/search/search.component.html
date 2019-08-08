@@ -7,3 +7,17 @@
         </datalist>
     </div>
 </form>
+
+<div (mouseover)="changeLabel=true" (mouseout)="changeLabel=false" style="width:22px;" class="ico">
+    <fa-icon *ngIf="changeLabel" [classes]="['hover-icon']" [icon]="faRandom" size="lg"
+        (click)='fetchRandomSong()' [styles]="{'color': '#fff568'}"></fa-icon>
+    <fa-icon *ngIf="!changeLabel" [classes]="['hover-icon']" [icon]="faRandom" size="lg"
+        (click)='fetchRandomSong()' [styles]="{'color': '#FFFFFF'}"></fa-icon>
+</div>
+
+<style>
+    svg.svg-inline--fa.fa-random.fa-w-16.fa-lg.hover-icon:hover {
+        cursor: pointer;
+        color: black;
+    }
+</style>

@@ -9,23 +9,10 @@
     <div class="song-info" *ngIf="songInfoObs | async as song">
         <div class="song_title">{{song.title}}</div>
         <div class="artist">{{song.artist}}</div>
-        <div (mouseover)="changeLabel=false" (mouseout)="changeLabel=true" style="width:22px;" class="ico">
-            <fa-icon *ngIf="!changeLabel" [classes]="['hover-icon']" [icon]="faRandom" size="lg"
-                (click)='fetchRandomSong()' [styles]="{'color': '#fff568'}"></fa-icon>
-            <fa-icon *ngIf="changeLabel" [classes]="['hover-icon']" [icon]="faRandom" size="lg"
-                (click)='fetchRandomSong()' [styles]="{'color': '#FFFFFF'}"></fa-icon>
-        </div>
+
     </div>
-    <div>
-    </div>
+    
     <div class="song-statistics" *ngIf="songStatisticsObs | async as statistics">
         <!-- <div class="repetition">{{statistics.repetition_percentage }}% repetitive</div> -->
     </div>
 </div>
-
-<style>
-    svg.svg-inline--fa.fa-random.fa-w-16.fa-lg.hover-icon:hover {
-        cursor: pointer;
-        color: black;
-    }
-</style>
