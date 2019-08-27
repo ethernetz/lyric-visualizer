@@ -53,7 +53,10 @@ export class TutorialComponent {
         ).subscribe(
             data => { },
             error => { },
-            () => { this.router.navigate(['']) }
+            () => {
+                localStorage.setItem('new_user', 'false') 
+                this.router.navigate(['']) 
+            }
         );
 
     }

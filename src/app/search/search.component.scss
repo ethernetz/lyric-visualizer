@@ -6,7 +6,8 @@ input {
   padding: 0;
   border-radius: 0;
   outline: none;
-  width: auto;
+  width: 270px;
+  float: left;
   font-size: 24px;
   line-height: 1.5em;
   font-family: $primary_font;
@@ -33,15 +34,20 @@ input {
 .input-wrapper {
   margin-left: auto;
 }
-
-.autocomplete {
-  color: white;
-  font-size: 18px;
-  font-family: "Poppins", Roboto, Arial, sans-serif;
-  background-color: #404040;
-  position: absolute;
-  z-index: 5;
-}
 .autocomplete_option {
   padding: 15px 10px 0 5px;
+}
+
+input::-webkit-calendar-picker-indicator {
+  display: none;
+}
+
+.ico{
+  float: left;
+  padding-left: 10px;
+  padding-top: 10px;
+}
+
+.ico:hover {
+  cursor:pointer;
 }

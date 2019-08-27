@@ -5,6 +5,9 @@ import { Subscription } from 'rxjs';
 import { SongOption } from '../models/song-option.model'
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
+import { faRandom, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import data from './songs.json';
+
 
 @Component({
     selector: 'app-search',
@@ -19,6 +22,8 @@ export class SearchComponent implements OnInit {
 
     public songOptions: SongOption[] = [];
     private songOptionsSub: Subscription;
+    public changeLabel : boolean;
+    public faRandom : IconDefinition = faRandom;
 
     constructor(private fb: FormBuilder, private songService: SongService, private route: ActivatedRoute, private router: Router) {
 
@@ -84,5 +89,12 @@ export class SearchComponent implements OnInit {
     fetchSong(song) {
         this.songService.getSong(song);
     }
+
+    fetchRandomSong() {
+        let track : string[] = data.songs[Math.floor(Math.random()*data.songs.length)].split(";");
+        let artistParam = encodeURIComponent(track[0])
+                        let trackParam = encodeURIComponent(track[1])
+                        this.router.navigate(['/search', artistParam, trackParam])
+    }s
 
 }   

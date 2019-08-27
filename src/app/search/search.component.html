@@ -8,12 +8,16 @@
     </div>
 </form>
 
-<!-- 
-<ng-container *ngIf="songOptions.length > 0">
-    <div class="autocomplete">
-        <div *ngFor="let song of songOptions" (click)="fetchSong($event, song)" class="autocomplete_option">
-            {{ song.title }} - by {{ song.artist }}
-        </div>
-    </div>
+<div (mouseover)="changeLabel=true" (mouseout)="changeLabel=false" style="width:22px;" class="ico">
+    <fa-icon *ngIf="changeLabel" [classes]="['hover-icon']" [icon]="faRandom" size="lg"
+        (click)='fetchRandomSong()' [styles]="{'color': '#fff568'}"></fa-icon>
+    <fa-icon *ngIf="!changeLabel" [classes]="['hover-icon']" [icon]="faRandom" size="lg"
+        (click)='fetchRandomSong()' [styles]="{'color': '#FFFFFF'}"></fa-icon>
+</div>
 
-</ng-container> -->
+<style>
+    svg.svg-inline--fa.fa-random.fa-w-16.fa-lg.hover-icon:hover {
+        cursor: pointer;
+        color: black;
+    }
+</style>
